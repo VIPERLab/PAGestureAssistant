@@ -1,0 +1,12 @@
+source 'https://github.com/CocoaPods/Specs.git'
+use_frameworks!
+
+target 'PAGestureAssistant_Example', :exclusive => true do
+  pod 'PAGestureAssistant', :path => '../'
+end
+
+target 'PAGestureAssistant_Tests', :exclusive => true do
+  pod 'PAGestureAssistant', :path => '../'
+
+  pod 'FBSnapshotTestCase'
+end
