@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="xqt-uo-34J">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10089" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="xqt-uo-34J">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10072.1"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
@@ -19,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MyD-4P-G1y">
-                                <rect key="frame" x="258" y="184" width="85" height="32"/>
+                                <rect key="frame" x="258" y="157" width="85" height="32"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <state key="normal" title="First Button"/>
                                 <connections>
@@ -27,7 +27,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fpb-93-2vH">
-                                <rect key="frame" x="246" y="244" width="108" height="32"/>
+                                <rect key="frame" x="246" y="214" width="108" height="32"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <state key="normal" title="Second Button"/>
                                 <connections>
@@ -35,15 +35,15 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="az6-W7-Mku">
-                                <rect key="frame" x="255" y="304" width="91" height="32"/>
+                                <rect key="frame" x="255" y="271" width="91" height="32"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <state key="normal" title="Third Button"/>
                                 <connections>
                                     <action selector="buttonTap:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Gfi-Da-y82"/>
                                 </connections>
                             </button>
-                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="3" minValue="1" maxValue="10" translatesAutoresizingMaskIntoConstraints="NO" id="dZN-PB-ogh">
-                                <rect key="frame" x="148" y="405" width="304" height="31"/>
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="2" minValue="1" maxValue="10" translatesAutoresizingMaskIntoConstraints="NO" id="dZN-PB-ogh">
+                                <rect key="frame" x="88" y="353" width="424" height="31"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="114" id="Nyo-87-hfe"/>
                                 </constraints>
@@ -56,44 +56,53 @@
                                     <action selector="changeDelay:" destination="BYZ-38-t0r" eventType="valueChanged" id="HdK-Lh-8zv"/>
                                 </connections>
                             </slider>
-                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BD5-cW-OmZ">
-                                <rect key="frame" x="285" y="452" width="31" height="15"/>
-                                <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BD5-cW-OmZ">
+                                <rect key="frame" x="282" y="391" width="36" height="17"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aKB-Uk-zSa">
+                                <rect key="frame" x="250" y="460" width="101" height="32"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <state key="normal" title="Show Options"/>
+                                <connections>
+                                    <action selector="showOptions:" destination="BYZ-38-t0r" eventType="touchUpInside" id="KOr-S4-gaO"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="249" text="Pro tip: try rotating your phone!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Nr-hO-fBS">
+                                <rect key="frame" x="199" y="498" width="203" height="17"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="dZN-PB-ogh" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="120" id="Cwd-Xv-GQ9"/>
-                            <constraint firstItem="fpb-93-2vH" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="-40" id="Grh-fx-75q"/>
+                            <constraint firstItem="dZN-PB-ogh" firstAttribute="top" secondItem="az6-W7-Mku" secondAttribute="bottom" constant="50" id="06U-bk-JRn"/>
+                            <constraint firstItem="az6-W7-Mku" firstAttribute="top" secondItem="fpb-93-2vH" secondAttribute="bottom" constant="25" id="0OC-yQ-Ekb"/>
+                            <constraint firstItem="fpb-93-2vH" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="-70" id="Grh-fx-75q"/>
                             <constraint firstItem="dZN-PB-ogh" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="KYS-aP-s0t"/>
-                            <constraint firstItem="BD5-cW-OmZ" firstAttribute="top" secondItem="dZN-PB-ogh" secondAttribute="bottom" constant="17" id="X1l-eZ-9r0"/>
+                            <constraint firstItem="BD5-cW-OmZ" firstAttribute="top" secondItem="dZN-PB-ogh" secondAttribute="bottom" constant="8" id="X1l-eZ-9r0"/>
                             <constraint firstItem="MyD-4P-G1y" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Xqc-GZ-vpm"/>
+                            <constraint firstItem="8Nr-hO-fBS" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="aA8-Uz-0Cm"/>
                             <constraint firstItem="fpb-93-2vH" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="cR0-Ck-Y3p"/>
-                            <constraint firstItem="MyD-4P-G1y" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="-100" id="cv6-8s-PPz"/>
-                            <constraint firstItem="az6-W7-Mku" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="20" id="hiC-aq-75Y"/>
+                            <constraint firstItem="8Nr-hO-fBS" firstAttribute="top" secondItem="aKB-Uk-zSa" secondAttribute="bottom" constant="6" id="gE5-RC-zpe"/>
+                            <constraint firstItem="fpb-93-2vH" firstAttribute="top" secondItem="MyD-4P-G1y" secondAttribute="bottom" constant="25" id="giF-j4-pdr"/>
+                            <constraint firstItem="aKB-Uk-zSa" firstAttribute="top" secondItem="BD5-cW-OmZ" secondAttribute="bottom" constant="52" id="lj5-Jx-fnX"/>
                             <constraint firstItem="BD5-cW-OmZ" firstAttribute="centerX" secondItem="dZN-PB-ogh" secondAttribute="centerX" id="o9Z-9y-BTX"/>
-                            <constraint firstItem="dZN-PB-ogh" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="0.5" id="qhM-vS-byy"/>
+                            <constraint firstItem="dZN-PB-ogh" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="0.7" id="qhM-vS-byy"/>
+                            <constraint firstItem="aKB-Uk-zSa" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="vsI-9M-XgG"/>
                             <constraint firstItem="az6-W7-Mku" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="xc7-U5-ONP"/>
                         </constraints>
                     </view>
-                    <toolbarItems>
-                        <barButtonItem style="plain" systemItem="flexibleSpace" id="kXs-nQ-pn3"/>
-                        <barButtonItem title="Show Options" id="oJG-xi-LaO">
-                            <connections>
-                                <action selector="showOptions:" destination="BYZ-38-t0r" id="U15-0b-C1g"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem style="plain" systemItem="flexibleSpace" id="kUv-3t-C2N"/>
-                    </toolbarItems>
+                    <toolbarItems/>
                     <navigationItem key="navigationItem" title="PAGestureAssistant" id="tfP-j1-zcF"/>
-                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="button1" destination="MyD-4P-G1y" id="2Vg-8a-pfs"/>
                         <outlet property="button2" destination="fpb-93-2vH" id="XL3-qL-2d5"/>
                         <outlet property="button3" destination="az6-W7-Mku" id="GrX-gQ-e7n"/>
-                        <outlet property="optionsButtonItem" destination="oJG-xi-LaO" id="WCU-q5-xIy"/>
+                        <outlet property="optionsButton" destination="aKB-Uk-zSa" id="Bxh-1D-MSp"/>
                         <outlet property="slider" destination="dZN-PB-ogh" id="hP7-aH-ASf"/>
                         <outlet property="sliderLabel" destination="BD5-cW-OmZ" id="1U4-U8-t9Z"/>
                     </connections>
@@ -105,7 +114,7 @@
         <!--Navigation Controller-->
         <scene sceneID="HYr-j6-LI4">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" toolbarHidden="NO" id="xqt-uo-34J" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="xqt-uo-34J" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="KGG-Z2-3iK">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>

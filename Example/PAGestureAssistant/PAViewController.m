@@ -10,13 +10,13 @@
 #import "PAGestureAssistant.h"
 
 @interface PAViewController ()
-@property (weak, nonatomic) IBOutlet UIButton *button1;
-@property (weak, nonatomic) IBOutlet UIButton *button2;
-@property (weak, nonatomic) IBOutlet UIButton *button3;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *optionsButtonItem;
-@property (weak, nonatomic) IBOutlet UISlider *slider;
-@property (assign, nonatomic) NSUInteger delay;
-@property (weak, nonatomic) IBOutlet UILabel *sliderLabel;
+@property (weak, nonatomic) IBOutlet    UIButton *button1;
+@property (weak, nonatomic) IBOutlet    UIButton *button2;
+@property (weak, nonatomic) IBOutlet    UIButton *button3;
+@property (weak, nonatomic) IBOutlet    UIButton *optionsButton;
+@property (weak, nonatomic) IBOutlet    UISlider *slider;
+@property (weak, nonatomic) IBOutlet    UILabel *sliderLabel;
+@property (assign, nonatomic)           NSUInteger delay;
 
 @end
 
@@ -42,21 +42,21 @@
     // Customize colors
     
     /* Sets a custom overlay color */
-    [[PAGestureAssistant appearance] setBackgroundColor:[UIColor colorWithWhite:1 alpha:0.8f]];
+    [[PAGestureAssistant appearance] setBackgroundColor:[UIColor colorWithWhite:1 alpha:0.75f]];
     
     /* Sets a custom text color */
-    [[PAGestureAssistant appearance] setTextColor:[UIColor darkGrayColor]];
+    [[PAGestureAssistant appearance] setTextColor:self.view.tintColor];
     
     /* Sets the gesture view color */
     [[PAGestureAssistant appearance] setTapColor:self.view.tintColor];
     
     /* Sets a custom image for the gesture view. Overrides the `tapColor`.
      Image credits: https://dribbble.com/shots/1904249-Handy-Gestures */
-    [[PAGestureAssistant appearance] setTapImage:[UIImage imageNamed:@"hand"]];
+    [[PAGestureAssistant appearance] setTapImage:[[UIImage imageNamed:@"hand"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]];
     
     [self showGestureAssistantForTap:PAGestureAssistantTapSingle
-                                view:self.navigationController.toolbar
-                                text:@"Tap here to begin"
+                                view:self.optionsButton
+                                text:@"Tap to begin"
                    afterIdleInterval:0];
 }
 
@@ -78,13 +78,13 @@
         
         [self showGestureAssistantForTap:PAGestureAssistantTapLongPress
                                     view:self.button3
-                                    text:@"Press me"
+                                    text:@"Long press me"
                        afterIdleInterval:self.delay];
     }];
     
     UIAlertAction *doubleTap = [UIAlertAction actionWithTitle:@"Custom Text Style" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
-        NSAttributedString *attr = [[NSAttributedString alloc] initWithString:@"Double tap me, I double dare you"
+        NSAttributedString *attr = [[NSAttributedString alloc] initWithString:@"Create custom text styles"
                                                                    attributes:@{NSFontAttributeName:[UIFont fontWithName:@"Georgia-Italic" size:16],
                                                                                 NSBackgroundColorAttributeName: [UIColor yellowColor]}];
         
@@ -97,8 +97,18 @@
     
     UIAlertAction *swipe = [UIAlertAction actionWithTitle:@"Swipe" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
-        [self showGestureAssistantForSwipeDirection:arc4random_uniform(4)
-                                               text:@"Swipe up, down, left or right"
+        PAGestureAssistantSwipeDirectons options = arc4random_uniform(4);
+        NSString *title;
+        
+        switch (options) {
+            case PAGestureAssistantSwipeDirectonUp:     title = @"Swipe up";    break;
+            case PAGestureAssistantSwipeDirectonDown:   title = @"Swipe down";  break;
+            case PAGestureAssistantSwipeDirectonLeft:   title = @"Swipe left";  break;
+            case PAGestureAssistantSwipeDirectonRight:  title = @"Swipe right"; break;
+        }
+        
+        [self showGestureAssistantForSwipeDirection:options
+                                               text:title
                                   afterIdleInterval:self.delay];
         
     }];
