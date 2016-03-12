@@ -376,10 +376,10 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
     self.startPositions                 = [NSArray array];
     self.endPositions                   = [NSArray array];
     
-    self.backgroundView                 = [[PAGestureBackgroundView alloc] initWithDelegate:self];
     self.backgroundView.alpha           = 0;
+    self.backgroundView                 = [[PAGestureBackgroundView alloc] initWithDelegate:self];
     
-    self.descriptionLabel               = [UILabel new];
+    self.descriptionLabel               = [[UILabel alloc] init];
     self.descriptionLabel.font          = [UIFont systemFontOfSize:18];
     self.descriptionLabel.textAlignment = NSTextAlignmentCenter;
     self.descriptionLabel.numberOfLines = 0;
