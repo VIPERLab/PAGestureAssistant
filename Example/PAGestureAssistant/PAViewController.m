@@ -15,7 +15,8 @@
 @property (weak, nonatomic) IBOutlet    UIButton *button3;
 @property (weak, nonatomic) IBOutlet    UIButton *optionsButton;
 @property (weak, nonatomic) IBOutlet    UISlider *slider;
-@property (weak, nonatomic) IBOutlet    UILabel *sliderLabel;
+@property (weak, nonatomic) IBOutlet    UILabel  *sliderLabel;
+
 @property (assign, nonatomic)           NSUInteger delay;
 
 @end
