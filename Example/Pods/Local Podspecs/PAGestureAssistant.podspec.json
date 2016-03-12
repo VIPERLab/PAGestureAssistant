@@ -1,0 +1,25 @@
+{
+  "name": "PAGestureAssistant",
+  "version": "0.1.0",
+  "summary": "A short description of PAGestureAssistant.",
+  "description": "",
+  "homepage": "https://github.com/<GITHUB_USERNAME>/PAGestureAssistant",
+  "license": "MIT",
+  "authors": {
+    "Pedro Almeida": "ip4dro@gmail.com"
+  },
+  "source": {
+    "git": "https://github.com/<GITHUB_USERNAME>/PAGestureAssistant.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "7.0"
+  },
+  "requires_arc": true,
+  "source_files": "Pod/Classes/**/*",
+  "resource_bundles": {
+    "PAGestureAssistant": [
+      "Pod/Assets/*.png"
+    ]
+  }
+}

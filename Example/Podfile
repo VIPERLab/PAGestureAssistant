@@ -8,5 +8,4 @@ end
 target 'PAGestureAssistant_Tests', :exclusive => true do
   pod 'PAGestureAssistant', :path => '../'
 
-  pod 'FBSnapshotTestCase'
 end

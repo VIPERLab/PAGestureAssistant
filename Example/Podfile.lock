@@ -1,0 +1,21 @@
+PODS:
+  - FBSnapshotTestCase (2.0.7):
+    - FBSnapshotTestCase/SwiftSupport (= 2.0.7)
+  - FBSnapshotTestCase/Core (2.0.7)
+  - FBSnapshotTestCase/SwiftSupport (2.0.7):
+    - FBSnapshotTestCase/Core
+  - PAGestureAssistant (0.1.0)
+
+DEPENDENCIES:
+  - FBSnapshotTestCase
+  - PAGestureAssistant (from `../`)
+
+EXTERNAL SOURCES:
+  PAGestureAssistant:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  FBSnapshotTestCase: 7e85180d0d141a0cf472352edda7e80d7eaeb547
+  PAGestureAssistant: 7ebcb6da4066778aad4c71ea26f98948ff11d1df
+
+COCOAPODS: 0.39.0

@@ -1,0 +1,6 @@
+framework module PAGestureAssistant {
+  umbrella header "PAGestureAssistant-umbrella.h"
+
+  export *
+  module * { export * }
+}
