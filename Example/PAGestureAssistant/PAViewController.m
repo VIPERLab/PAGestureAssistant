@@ -9,7 +9,7 @@
 #import "PAViewController.h"
 #import "PAGestureAssistant.h"
 
-@interface ViewController ()
+@interface PAViewController ()
 @property (weak, nonatomic) IBOutlet UIButton *button1;
 @property (weak, nonatomic) IBOutlet UIButton *button2;
 @property (weak, nonatomic) IBOutlet UIButton *button3;
