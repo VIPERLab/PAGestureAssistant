@@ -353,7 +353,6 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
 
 @property (assign, nonatomic) BOOL                      isAnimating;
 @property (assign, nonatomic) BOOL                      isDismissing;
-//@property (assign, nonatomic) BOOL                      autoRepeat;
 
 @end
 
