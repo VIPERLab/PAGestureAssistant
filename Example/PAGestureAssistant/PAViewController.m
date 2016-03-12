@@ -42,17 +42,17 @@
     // Customize colors
     
     /* Sets a custom overlay color */
-    //    [[PAGestureAssistant appearance] setBackgroundColor:[UIColor colorWithWhite:1 alpha:0.8f]];
+    [[PAGestureAssistant appearance] setBackgroundColor:[UIColor colorWithWhite:1 alpha:0.8f]];
     
     /* Sets a custom text color */
-    //    [[PAGestureAssistant appearance] setTextColor:[UIColor darkGrayColor]];
+    [[PAGestureAssistant appearance] setTextColor:[UIColor darkGrayColor]];
     
     /* Sets the gesture view color */
-    //    [[PAGestureAssistant appearance] setTapColor:self.view.tintColor];
+    [[PAGestureAssistant appearance] setTapColor:self.view.tintColor];
     
     /* Sets a custom image for the gesture view. Overrides the `tapColor`.
      Image credits: https://dribbble.com/shots/1904249-Handy-Gestures */
-    //[[PAGestureAssistant appearance] setTapImage:[UIImage imageNamed:@"hand"]];
+    [[PAGestureAssistant appearance] setTapImage:[UIImage imageNamed:@"hand"]];
     
     [self showGestureAssistantForTap:PAGestureAssistantTapSingle
                                 view:self.navigationController.toolbar
