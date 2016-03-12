@@ -84,10 +84,10 @@ strip_invalid_archs() {
 
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
+  install_framework "Pods-PAGestureAssistant_Tests/FrameAccessor.framework"
   install_framework "Pods-PAGestureAssistant_Tests/PAGestureAssistant.framework"
-  install_framework "Pods-PAGestureAssistant_Tests/FBSnapshotTestCase.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
+  install_framework "Pods-PAGestureAssistant_Tests/FrameAccessor.framework"
   install_framework "Pods-PAGestureAssistant_Tests/PAGestureAssistant.framework"
-  install_framework "Pods-PAGestureAssistant_Tests/FBSnapshotTestCase.framework"
 fi

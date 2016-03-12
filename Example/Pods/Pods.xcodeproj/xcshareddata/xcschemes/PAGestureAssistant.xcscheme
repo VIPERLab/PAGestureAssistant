@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'C70AA1E733C488A64C229DE0'
+               BlueprintIdentifier = 'F549A17F328EF07CAE7DDFA5'
                BlueprintName = 'PAGestureAssistant'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'PAGestureAssistant.framework'>
