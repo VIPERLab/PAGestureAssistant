@@ -119,7 +119,7 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
     
     if (self.gestureAssistant && self.gestureAssistant.mode != PAGestureAssistantOptionUndefined) {
         
-        NSLog(@"[%@] screen rotated. resetting timer...", NSStringFromClass([self class]));
+        //NSLog(@"[%@] screen rotated. resetting timer...", NSStringFromClass([self class]));
         [self.gestureAssistant pa_dismissThenResume];
     }
 }
@@ -412,7 +412,7 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
     if (self.completion != nil) {
         
         self.isDismissing = YES;
-        NSLog(@"[%@] user touch. completing task...", NSStringFromClass([self class]));
+        //NSLog(@"[%@] user touch. completing task...", NSStringFromClass([self class]));
         [self pa_dismiss:^(BOOL finished) {
             
             dispatch_async(dispatch_get_main_queue(),^{
@@ -429,13 +429,13 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
     }
     else if (self.idleTimerDelay > 0) {
         
-        NSLog(@"[%@] user touch. resetting timer...", NSStringFromClass([self class]));
+        //NSLog(@"[%@] user touch. resetting timer...", NSStringFromClass([self class]));
         [self pa_dismissThenResume];
     }
     
     else {
         
-        NSLog(@"[%@] user touch. dismissing...", NSStringFromClass([self class]));
+        //NSLog(@"[%@] user touch. dismissing...", NSStringFromClass([self class]));
         [self pa_dismiss];
     }
 }
@@ -533,7 +533,7 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
             break;
             
         case PAGestureAssistantOptionUndefined:
-            NSLog(@"[%@] can't animate undefined state", NSStringFromClass([self class]));
+            //NSLog(@"[%@] can't animate undefined state", NSStringFromClass([self class]));
             break;
     }
     
@@ -753,7 +753,7 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
 {
     if (mode == PAGestureAssistantOptionUndefined) {
         
-        NSLog(@"[%@] mode can't be undefined", NSStringFromClass([self class]));
+        //NSLog(@"[%@] mode can't be undefined", NSStringFromClass([self class]));
         return;
     }
     
@@ -784,7 +784,7 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
                 break;
                 
             case PAGestureAssistantOptionUndefined:
-                NSLog(@"[%@] can't have a undefined type", NSStringFromClass([self class]));
+                //NSLog(@"[%@] can't have a undefined type", NSStringFromClass([self class]));
                 return;
         }
         
@@ -954,7 +954,7 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
             break;
             
         case PAGestureAssistantOptionUndefined:
-            NSLog(@"[%@] Can't have undefined type!", NSStringFromClass([self class]));
+            //NSLog(@"[%@] Can't have undefined type!", NSStringFromClass([self class]));
             return;
     }
     
@@ -976,6 +976,7 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
     // set views color
     UIColor *viewColor = [[[self class] appearance] tapColor] ? [[[self class] appearance] tapColor] : kPAGestureAssistantDefaultGestureViewColor;
     [[PAGestureView appearance] setBackgroundColor:[viewColor colorWithAlphaComponent:0.7f]];
+    [[PAGestureView appearance] setTintColor:viewColor];
     
     // make views
     NSMutableArray *views = [NSMutableArray array];
