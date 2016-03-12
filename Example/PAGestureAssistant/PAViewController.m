@@ -74,6 +74,14 @@
                        afterIdleInterval:self.delay];
     }];
     
+    UIAlertAction *longPress = [UIAlertAction actionWithTitle:@"Long Press" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+        [self showGestureAssistantForTap:PAGestureAssistantTapLongPress
+                                    view:self.button3
+                                    text:@"Press me"
+                       afterIdleInterval:self.delay];
+    }];
+    
     UIAlertAction *doubleTap = [UIAlertAction actionWithTitle:@"Custom Text Style" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
         NSAttributedString *attr = [[NSAttributedString alloc] initWithString:@"Double tap me, I double dare you"
@@ -123,6 +131,7 @@
     }];
     
     [alertController addAction:singleTap];
+    [alertController addAction:longPress];
     [alertController addAction:doubleTap];
     [alertController addAction:swipe];
     [alertController addAction:swipe2];

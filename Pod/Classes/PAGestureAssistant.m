@@ -146,6 +146,9 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
         case PAGestureAssistantTapDouble:
             option = PAGestureAssistantOptionDoubleTap;
             break;
+            
+        case PAGestureAssistantTapLongPress:
+            option = PAGestureAssistantOptionLongPress;
     }
     
     [self.gestureAssistant pa_show:option targetView:targetView startPoint:CGPointZero endPoint:CGPointZero attributedText:attributedText afterDelay:delay completion:completion];
@@ -164,6 +167,9 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
         case PAGestureAssistantTapDouble:
             option = PAGestureAssistantOptionDoubleTap;
             break;
+            
+        case PAGestureAssistantTapLongPress:
+            option = PAGestureAssistantOptionLongPress;
     }
     
     [self.gestureAssistant pa_show:option targetView:nil startPoint:tapPoint endPoint:CGPointZero attributedText:attributedText afterDelay:delay completion:completion];
@@ -512,7 +518,11 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
             break;
             
         case PAGestureAssistantOptionTap:
-            [self pa_animateSingleTapGesture:delay];
+            [self pa_animateSingleTapGesture:delay timeScale:0.7];
+            break;
+            
+        case PAGestureAssistantOptionLongPress:
+            [self pa_animateSingleTapGesture:delay timeScale:4.4];
             break;
             
         case PAGestureAssistantOptionSwipeUp:
@@ -557,10 +567,10 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
     }];
 }
 
-- (void)pa_animateSingleTapGesture:(NSTimeInterval)delay
+- (void)pa_animateSingleTapGesture:(NSTimeInterval)delay timeScale:(CGFloat)timeScale
 {
-    NSTimeInterval tapDnDuration = kPAGestureAssistantDefaultViewPulseDuration * 0.67;
-    NSTimeInterval tapUpDuration = kPAGestureAssistantDefaultViewPulseDuration ;
+    NSTimeInterval tapDnDuration = kPAGestureAssistantDefaultViewPulseDuration * 0.67 * timeScale;
+    NSTimeInterval tapUpDuration = kPAGestureAssistantDefaultViewPulseDuration;
     
     // fade in gesture views
     [UIView animateWithDuration:kPAGestureAssistantDefaultViewPulseDuration*2 delay:delay options:[self pa_defaultAnimationOptions] animations:^{
@@ -938,6 +948,7 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
             
         case PAGestureAssistantOptionTap:
         case PAGestureAssistantOptionDoubleTap:
+        case PAGestureAssistantOptionLongPress:
             viewCount = 1;
             start = [self.startPositions copy];
             stop  = [self.startPositions copy];

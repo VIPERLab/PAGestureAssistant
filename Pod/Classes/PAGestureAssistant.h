@@ -26,6 +26,8 @@ typedef enum : NSUInteger {
 typedef enum : NSUInteger {
     /** A single tap animation. */
     PAGestureAssistantTapSingle,
+    /** A long press animation. */
+    PAGestureAssistantTapLongPress,
     /** A double tap animation. */
     PAGestureAssistantTapDouble,
 } PAGestureAssistantTap;
@@ -34,6 +36,7 @@ typedef enum : NSUInteger {
     PAGestureAssistantOptionUndefined,
     PAGestureAssistantOptionTap,
     PAGestureAssistantOptionDoubleTap,
+    PAGestureAssistantOptionLongPress,
     PAGestureAssistantOptionSwipeDown,
     PAGestureAssistantOptionSwipeUp,
     PAGestureAssistantOptionSwipeLeft,

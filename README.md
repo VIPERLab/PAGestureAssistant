@@ -31,6 +31,7 @@ You can set your custom swipe defining a `startPoint` and `endPoint`, or choose 
 ```
 // Tap animations
 PAGestureAssistantTapSingle
+PAGestureAssistantTapLongPress
 PAGestureAssistantTapDouble
 
 // Swipe animations
