@@ -8,7 +8,12 @@
 
 #import "PAGestureView.h"
 
+
+#define kPAAnchorPointCenter      CGPointMake(0.5f, 0.5f)
+#define kPAAnchorPointTopCenter   CGPointMake(0.5f, 0.0f)
+
 @implementation PAGestureView
+
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
@@ -17,7 +22,7 @@
     
     if (self = [super initWithFrame:frame]) {
         
-        self.layer.anchorPoint      = CGPointMake(0.5f, 0.5f);
+        self.layer.anchorPoint      = kPAAnchorPointCenter;
         self.userInteractionEnabled = NO;
         self.transform              = CGAffineTransformMakeScale(0.1, 0.1);
         self.alpha                  = 0;
@@ -34,7 +39,6 @@
     [self.layer removeAllAnimations];
     self.transform = CGAffineTransformIdentity;
     self.alpha = 0;
-    
 }
 
 - (void)setImage:(UIImage *)image
@@ -44,10 +48,12 @@
     if (!image) {
         self.layer.masksToBounds = YES;
         self.layer.cornerRadius  = self.bounds.size.height/2;
+        self.layer.anchorPoint   = kPAAnchorPointCenter;
     }
     else {
         self.layer.masksToBounds = NO;
         self.layer.cornerRadius  = 0;
+        self.layer.anchorPoint   = kPAAnchorPointTopCenter;
         self.backgroundColor     = [UIColor clearColor];
     }
 }
