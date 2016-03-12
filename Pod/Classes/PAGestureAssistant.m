@@ -392,7 +392,18 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
     // recalculates sizes
     self.mode = self.mode;
     
-    self.descriptionLabel.alpha = 0;
+    self.backgroundView.alpha = 0;
+    
+    if ([[[self class] appearance] backgroundColor]) {
+        self.backgroundView.backgroundColor = [[[self class] appearance] backgroundColor];
+    }
+    else {
+        self.backgroundView.backgroundColor = kPAGestureAssistantDefaultBackgroundColor;
+    }
+    
+    self.descriptionLabel.alpha        = 0;
+    self.descriptionLabel.shadowColor  = self.backgroundView.backgroundColor;
+    self.descriptionLabel.shadowOffset = CGSizeMake(0, 2);
     
     // add subviews
     [self.window addSubview:self.backgroundView];
@@ -535,14 +546,6 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
         case PAGestureAssistantOptionUndefined:
             //NSLog(@"[%@] can't animate undefined state", NSStringFromClass([self class]));
             break;
-    }
-    
-    self.backgroundView.alpha = 0;
-    self.backgroundView.backgroundColor = kPAGestureAssistantDefaultBackgroundColor;
-    
-    if ([[[self class] appearance] backgroundColor]) {
-        
-        self.backgroundView.backgroundColor = [[[self class] appearance] backgroundColor];
     }
     
     // fade in background
@@ -971,7 +974,13 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
     }
     
     CGFloat labelY = round(MIN(screenHeight * 0.75, animationRect.origin.y + animationRect.size.height + kPAGestureAssistantDefaultViewSize));
+    
     self.descriptionLabel.frame = CGRectMake(round(screenWidth * 0.15), labelY, round(screenWidth * 0.7), screenHeight - labelY);
+    
+    if (fabs(self.descriptionLabel.centerY - CGRectGetMidY(animationRect)) < 100) {
+        self.descriptionLabel.bottom = animationRect.origin.y;
+        self.descriptionLabel.height = MAX(self.descriptionLabel.height, 100);
+    }
     
     // set views color
     UIColor *viewColor = [[[self class] appearance] tapColor] ? [[[self class] appearance] tapColor] : kPAGestureAssistantDefaultGestureViewColor;
