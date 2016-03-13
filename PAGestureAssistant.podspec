@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
                        DESC
 
   s.homepage         = "https://github.com/ipedro/PAGestureAssistant"
-  # s.screenshots     = "www.example.com/screenshots_1", "www.example.com/screenshots_2"
+  s.screenshots     = "https://raw.githubusercontent.com/ipedro/PAGestureAssistant/master/screenshot1.gif", "https://raw.githubusercontent.com/ipedro/PAGestureAssistant/master/screenshot2.gif"
   s.license          = 'MIT'
   s.author           = { "Pedro Almeida" => "ip4dro@gmail.com" }
   s.source           = { :git => "https://github.com/ipedro/PAGestureAssistant.git", :tag => s.version.to_s }
