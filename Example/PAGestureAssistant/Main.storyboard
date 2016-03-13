@@ -32,6 +32,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <state key="normal" title="Second Button"/>
                                 <connections>
+                                    <action selector="buttonTap:" destination="BYZ-38-t0r" eventType="touchUpInside" id="OJO-fo-BBV"/>
                                     <outletCollection property="gestureRecognizers" destination="EwK-kS-Qs9" appends="YES" id="rg4-Ex-AXD"/>
                                 </connections>
                             </button>
