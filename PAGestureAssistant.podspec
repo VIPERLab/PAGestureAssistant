@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "PAGestureAssistant"
-  s.version          = "0.1.2"
+  s.version          = "0.2"
   s.summary          = "PAGestureAssistant is a drop-in UIViewController category for showing interaction tips and tutorials to users."
 
   s.description      = <<-DESC
@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
                        DESC
 
   s.homepage         = "https://github.com/ipedro/PAGestureAssistant"
-  s.screenshots     = "https://raw.githubusercontent.com/ipedro/PAGestureAssistant/master/screenshot1.gif", "https://raw.githubusercontent.com/ipedro/PAGestureAssistant/master/screenshot2.gif"
+  s.screenshots      = "http://i.imgur.com/DVnwy8S.gif"
   s.license          = 'MIT'
   s.author           = { "Pedro Almeida" => "ip4dro@gmail.com" }
   s.source           = { :git => "https://github.com/ipedro/PAGestureAssistant.git", :tag => s.version.to_s }
