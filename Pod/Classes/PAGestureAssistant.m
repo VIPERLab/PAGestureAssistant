@@ -302,13 +302,14 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
         
         UIFont  *font = [UIFont systemFontOfSize:kPAGestureAssistantDefaultFontSize];
         
-        NSShadow *shadow    = [NSShadow new];
-        shadow.shadowOffset = CGSizeMake(0, 2);
-        shadow.shadowColor  = [shadowColor colorWithAlphaComponent:0.5f];
+        NSShadow *shadow        = [NSShadow new];
+        shadow.shadowOffset     = CGSizeMake(0, 2);
+        shadow.shadowColor      = [shadowColor colorWithAlphaComponent:0.6f];
+        shadow.shadowBlurRadius = 2;
         
         NSDictionary *attributes = @{NSForegroundColorAttributeName: textColor,
-                                                NSFontAttributeName: font,
-                                              NSShadowAttributeName: shadow};
+                                     NSFontAttributeName: font,
+                                     NSShadowAttributeName: shadow};
         
         return [[NSMutableAttributedString alloc] initWithString:text attributes:attributes];
     }
@@ -403,23 +404,140 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
 
 - (void)pa_prepareViews
 {
-    // recalculates sizes
-    self.mode = self.mode;
-    
-    self.backgroundView.alpha = 0;
-    
-    if ([[[self class] appearance] backgroundColor]) {
-        self.backgroundView.backgroundColor = [[[self class] appearance] backgroundColor];
+    // remove views from window
+    for (PAGestureView *view in self.views) {
+        [view removeFromSuperview];
     }
-    else {
-        self.backgroundView.backgroundColor = kPAGestureAssistantDefaultBackgroundColor;
+    
+    // setup coordinates
+    
+    NSArray *start = @[];
+    NSArray *stop  = @[];
+    
+    NSInteger viewCount      = 0;
+    CGFloat screenWidth      = [UIScreen mainScreen].bounds.size.width;
+    CGFloat screenHeight     = [UIScreen mainScreen].bounds.size.height;
+    CGFloat horizontalCenter = screenWidth/2;
+    CGFloat topMargin        = MAX (30, 10 + self.viewController.navigationController.navigationBar.bottom);
+    
+    switch (self.mode) {
+            
+        case PAGestureAssistantOptionSwipeDown:
+            viewCount = 1;
+            start = @[NSStringFromCGPoint(CGPointMake(horizontalCenter, round(screenHeight * 0.2)))];
+            stop  = @[NSStringFromCGPoint(CGPointMake(horizontalCenter, round(screenHeight * 0.7)))];
+            break;
+            
+        case PAGestureAssistantOptionSwipeUp:
+            viewCount = 1;
+            start = @[NSStringFromCGPoint(CGPointMake(horizontalCenter, round(screenHeight * 0.65)))];
+            stop  = @[NSStringFromCGPoint(CGPointMake(horizontalCenter, round(screenHeight * 0.15)))];
+            break;
+            
+        case PAGestureAssistantOptionSwipeLeft:
+            viewCount = 1;
+            start = @[NSStringFromCGPoint(CGPointMake(screenWidth * 0.8, round(screenHeight/2)))];
+            stop  = @[NSStringFromCGPoint(CGPointMake(screenWidth * 0.2, round(screenHeight/2)))];
+            break;
+            
+        case PAGestureAssistantOptionSwipeRight:
+            viewCount = 1;
+            start = @[NSStringFromCGPoint(CGPointMake(screenWidth * 0.2, round(screenHeight/2)))];
+            stop  = @[NSStringFromCGPoint(CGPointMake(screenWidth * 0.8, round(screenHeight/2)))];
+            break;
+            
+        case PAGestureAssistantOptionCustomSwipe:
+            viewCount = 1;
+            start = [self.startPositions copy];
+            stop  = [self.endPositions   copy];
+            break;
+            
+        case PAGestureAssistantOptionTap:
+        case PAGestureAssistantOptionDoubleTap:
+        case PAGestureAssistantOptionLongPress:
+            viewCount = 1;
+            start = [self.startPositions copy];
+            stop  = [self.startPositions copy];
+            break;
+            
+        case PAGestureAssistantOptionUndefined:
+            NSLog(@"[%@] Can't have undefined type!", NSStringFromClass([self class]));
+            return;
+    }
+    
+    
+    // set tap color
+    UIColor *tapColor = [[[self class] appearance] tapColor] ? [[[self class] appearance] tapColor] : kPAGestureAssistantDefaultGestureViewColor;
+    [[PAGestureView appearance] setBackgroundColor:[tapColor colorWithAlphaComponent:0.7f]];
+    [[PAGestureView appearance] setTintColor:tapColor];
+    
+    
+    // make views
+    NSMutableArray *views = [NSMutableArray array];
+    
+    for (int i = 0; i < viewCount; i++) {
+        
+        PAGestureView *view = [[PAGestureView alloc] init];
+        view.image = [[self class] appearance].tapImage;
+        [views addObject:view];
+    }
+    
+    self.startPositions = start;
+    self.endPositions   = stop;
+    self.views          = views;
+    
+    
+    // Description Label
+    
+    CGRect animationRect = CGRectMake(MAXFLOAT, MAXFLOAT, 0, 0);
+    
+    // calculate animation rect to position label
+    for (int i =0; i < start.count; i++) {
+        
+        CGPoint p0 = CGPointFromString(start[i]);
+        CGPoint p1 = CGPointFromString(stop[i]);
+        
+        animationRect.origin.x      = MIN(animationRect.origin.x,    MIN(p0.x, p1.x));
+        animationRect.origin.y      = MIN(animationRect.origin.y,    MIN(p0.y, p1.y));
+        animationRect.size.width    = MAX(animationRect.size.width,  MAX(p0.x, p1.x) - animationRect.origin.x);
+        animationRect.size.height   = MAX(animationRect.size.height, MAX(p0.y, p1.y) - animationRect.origin.y);
+    }
+    
+    CGFloat labelWidth  = screenWidth * 0.7;
+    CGSize  textSize    = [self.descriptionLabel.attributedText boundingRectWithSize:CGSizeMake(labelWidth, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin context:nil].size;
+    
+    CGFloat labelMargin = 30;
+    CGFloat labelY      = animationRect.origin.y + animationRect.size.height + kPAGestureAssistantDefaultViewSize + labelMargin;
+    CGFloat labelHeight = MAX(textSize.height, 100);
+    
+    // check screen overflow
+    if (labelHeight + labelY > screenHeight) {
+        
+        labelHeight += screenHeight - (labelHeight + labelY + labelMargin);
+    }
+    
+    // check overlap with gesture
+    if (CGRectGetMinY(animationRect) - labelMargin - topMargin > labelHeight &&
+        labelHeight / textSize.height < 0.8) {
+        
+        labelY      = topMargin;
+        labelHeight = CGRectGetMinY(animationRect) - labelMargin - topMargin;
     }
     
     self.descriptionLabel.alpha = 0;
+    self.descriptionLabel.frame = CGRectMake(round((screenWidth - labelWidth)/2),
+                                             round(labelY),
+                                             round(labelWidth),
+                                             round(labelHeight));
+    // Background
+    self.backgroundView.alpha = 0;
+    self.backgroundView.backgroundColor = [[[self class] appearance] backgroundColor] ? [[[self class] appearance] backgroundColor] : kPAGestureAssistantDefaultBackgroundColor;
+    
     
     // add subviews
     [self.window addSubview:self.backgroundView];
     [self.window addSubview:self.descriptionLabel];
+    
     
 }
 
@@ -467,13 +585,8 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
 
 - (BOOL)pa_allowContentTouches
 {
-    if (self.isFadingOut || self.isFadingIn) {
-        
+    if (self.completion) {
         return NO;
-    }
-    else if (self.backgroundView.alpha == 1) {
-        
-        return (self.completion == nil);
     }
     
     return YES;
@@ -571,22 +684,22 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
                           delay:delay
                         options:[self pa_defaultAnimationOptions]
                      animations:^{
-        
-        self.backgroundView.alpha = 1;
-        
-    } completion:^(BOOL finished) {
-        
-        self.isFadingIn = NO;
-        
-        self.viewController.view.tintAdjustmentMode = UIViewTintAdjustmentModeDimmed;
-        self.viewController.navigationController.view.tintAdjustmentMode = UIViewTintAdjustmentModeDimmed;
-        
-        // fade in text
-        [UIView animateWithDuration:kPAGestureAssistantDefaultViewPulseDuration*2 animations:^{
-            self.descriptionLabel.alpha = 1;
-        }];
-        
-    }];
+                         
+                         self.backgroundView.alpha = 1;
+                         
+                     } completion:^(BOOL finished) {
+                         
+                         self.isFadingIn = NO;
+                         
+                         self.viewController.view.tintAdjustmentMode = UIViewTintAdjustmentModeDimmed;
+                         self.viewController.navigationController.view.tintAdjustmentMode = UIViewTintAdjustmentModeDimmed;
+                         
+                         // fade in text
+                         [UIView animateWithDuration:kPAGestureAssistantDefaultViewPulseDuration*2 animations:^{
+                             self.descriptionLabel.alpha = 1;
+                         }];
+                         
+                     }];
 }
 
 - (void)pa_animateSingleTapGesture:(NSTimeInterval)delay timeScale:(CGFloat)timeScale
@@ -813,7 +926,6 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
                 return;
         }
         
-        //_isAnimating    = YES;
         _mode           = mode;
         _idleTimerDelay = delay;
         _targetView     = targetView;
@@ -898,14 +1010,10 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
 
 - (void)pa_dismissThenResume
 {
-    //__weak UIView *targetViewCopy = self.targetView;
-    
     [self pa_dismiss:^(BOOL finished) {
         
         if (self.mode != PAGestureAssistantOptionUndefined)
         {
-            //self.targetView = targetViewCopy;
-            
             self.isAnimating = YES;
             
             // prepare subviews
@@ -917,111 +1025,6 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
     }];
 }
 
-#pragma mark - Setters
-
-- (void)setMode:(PAGestureAssistantOptions)mode
-{
-    _mode = mode;
-    
-    // just to be safe
-    for (PAGestureView *view in self.views) {
-        [view removeFromSuperview];
-    }
-    
-    NSArray *start = @[];
-    NSArray *stop  = @[];
-    
-    NSInteger viewCount      = 0;
-    CGFloat screenWidth      = [UIScreen mainScreen].bounds.size.width;
-    CGFloat screenHeight     = [UIScreen mainScreen].bounds.size.height;
-    CGFloat horizontalCenter = screenWidth/2;
-    
-    CGRect animationRect = CGRectMake(MAXFLOAT, MAXFLOAT, 0, 0);
-    
-    switch (self.mode) {
-            
-        case PAGestureAssistantOptionSwipeDown:
-            viewCount = 1;
-            start = @[NSStringFromCGPoint(CGPointMake(horizontalCenter, round(screenHeight * 0.2)))];
-            stop  = @[NSStringFromCGPoint(CGPointMake(horizontalCenter, round(screenHeight * 0.7)))];
-            break;
-            
-        case PAGestureAssistantOptionSwipeUp:
-            viewCount = 1;
-            start = @[NSStringFromCGPoint(CGPointMake(horizontalCenter, round(screenHeight * 0.65)))];
-            stop  = @[NSStringFromCGPoint(CGPointMake(horizontalCenter, round(screenHeight * 0.15)))];
-            break;
-            
-        case PAGestureAssistantOptionSwipeLeft:
-            viewCount = 1;
-            start = @[NSStringFromCGPoint(CGPointMake(screenWidth * 0.8, round(screenHeight/2)))];
-            stop  = @[NSStringFromCGPoint(CGPointMake(screenWidth * 0.2, round(screenHeight/2)))];
-            break;
-            
-        case PAGestureAssistantOptionSwipeRight:
-            viewCount = 1;
-            start = @[NSStringFromCGPoint(CGPointMake(screenWidth * 0.2, round(screenHeight/2)))];
-            stop  = @[NSStringFromCGPoint(CGPointMake(screenWidth * 0.8, round(screenHeight/2)))];
-            break;
-            
-        case PAGestureAssistantOptionCustomSwipe:
-            viewCount = 1;
-            start = [self.startPositions copy];
-            stop  = [self.endPositions   copy];
-            break;
-            
-        case PAGestureAssistantOptionTap:
-        case PAGestureAssistantOptionDoubleTap:
-        case PAGestureAssistantOptionLongPress:
-            viewCount = 1;
-            start = [self.startPositions copy];
-            stop  = [self.startPositions copy];
-            break;
-            
-        case PAGestureAssistantOptionUndefined:
-            //NSLog(@"[%@] Can't have undefined type!", NSStringFromClass([self class]));
-            return;
-    }
-    
-    // check animation rect to position label
-    for (int i =0; i < start.count; i++) {
-        
-        CGPoint p0 = CGPointFromString(start[i]);
-        CGPoint p1 = CGPointFromString(stop[i]);
-        
-        animationRect.origin.x      = MIN(animationRect.origin.x,    MIN(p0.x, p1.x));
-        animationRect.origin.y      = MIN(animationRect.origin.y,    MIN(p0.y, p1.y));
-        animationRect.size.width    = MAX(animationRect.size.width,  MAX(p0.x, p1.x) - animationRect.origin.x);
-        animationRect.size.height   = MAX(animationRect.size.height, MAX(p0.y, p1.y) - animationRect.origin.y);
-    }
-    
-    CGFloat labelY = round(MIN(screenHeight * 0.75, animationRect.origin.y + animationRect.size.height + kPAGestureAssistantDefaultViewSize));
-    
-    self.descriptionLabel.frame = CGRectMake(round(screenWidth * 0.15), labelY, round(screenWidth * 0.7), screenHeight - labelY);
-    
-    if (fabs(self.descriptionLabel.centerY - CGRectGetMidY(animationRect)) < 100) {
-        self.descriptionLabel.bottom = animationRect.origin.y;
-        self.descriptionLabel.height = MAX(self.descriptionLabel.height, 100);
-    }
-    
-    // set views color
-    UIColor *viewColor = [[[self class] appearance] tapColor] ? [[[self class] appearance] tapColor] : kPAGestureAssistantDefaultGestureViewColor;
-    [[PAGestureView appearance] setBackgroundColor:[viewColor colorWithAlphaComponent:0.7f]];
-    [[PAGestureView appearance] setTintColor:viewColor];
-    
-    // make views
-    NSMutableArray *views = [NSMutableArray array];
-    for (int i = 0; i < viewCount; i++)
-    {
-        PAGestureView *view = [[PAGestureView alloc] init];
-        view.image = [[self class] appearance].tapImage;
-        [views addObject:view];
-    }
-    
-    self.startPositions = start;
-    self.endPositions   = stop;
-    self.views          = views;
-}
 
 #pragma mark - Getters
 
