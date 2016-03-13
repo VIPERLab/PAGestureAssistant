@@ -44,16 +44,14 @@
     
     /* Sets a custom overlay color */
     [[PAGestureAssistant appearance] setBackgroundColor:[UIColor colorWithWhite:1 alpha:0.75f]];
-    
     /* Sets a custom text color */
     [[PAGestureAssistant appearance] setTextColor:self.view.tintColor];
-    
     /* Sets the gesture view color */
     [[PAGestureAssistant appearance] setTapColor:self.view.tintColor];
-    
     /* Sets a custom image for the gesture view. Overrides the `tapColor`.
      Image credits: https://dribbble.com/shots/1904249-Handy-Gestures */
     [[PAGestureAssistant appearance] setTapImage:[[UIImage imageNamed:@"hand"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]];
+    
     
     [self showGestureAssistantForTap:PAGestureAssistantTapSingle
                                 view:self.optionsButton
@@ -124,9 +122,9 @@
     UIAlertAction *tutorial = [UIAlertAction actionWithTitle:@"Tutorial Mode" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
         /* Chain multiple calls to achieve a tutorial efect */
-        [self showGestureAssistantForSwipeWithStartPoint:CGPointMake(60, 60) endPoint:self.view.center text:@"You can create custom swipes" afterIdleInterval:0 completion:^(BOOL finished) {
+        [self showGestureAssistantForSwipeWithStartPoint:CGPointMake(70, 70) endPoint:self.view.center text:@"You can create custom swipes" afterIdleInterval:0 completion:^(BOOL finished) {
             
-            [self showGestureAssistantForTap:PAGestureAssistantTapDouble view:self.button3 text:@"Tap twice" afterIdleInterval:0 completion:^(BOOL finished) {
+            [self showGestureAssistantForTap:PAGestureAssistantTapLongPress view:self.button3 text:@"Long press" afterIdleInterval:0 completion:^(BOOL finished) {
                 
                 [self showGestureAssistantForSwipeDirection:PAGestureAssistantSwipeDirectonUp text:@"Swipe up" afterIdleInterval:0 completion:^(BOOL finished) {
                     
@@ -137,9 +135,7 @@
         }];
     }];
     
-    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-        [self setupAssistant];
-    }];
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
     
     [alertController addAction:singleTap];
     [alertController addAction:longPress];
