@@ -453,10 +453,12 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
 
 - (BOOL)pa_allowContentTouches
 {
-    if (self.isFadingOut) {
+    if (self.isFadingOut || self.isFadingIn) {
+        
         return NO;
     }
     else if (self.backgroundView.alpha == 1) {
+        
         return (self.completion == nil);
     }
     
