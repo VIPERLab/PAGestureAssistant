@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="xqt-uo-34J">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10089" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="xqt-uo-34J">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10072.1"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
@@ -19,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MyD-4P-G1y">
-                                <rect key="frame" x="258" y="124" width="85" height="32"/>
+                                <rect key="frame" x="258" y="109" width="85" height="32"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <state key="normal" title="First Button"/>
                                 <connections>
@@ -27,23 +27,26 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fpb-93-2vH">
-                                <rect key="frame" x="246" y="181" width="108" height="32"/>
+                                <rect key="frame" x="246" y="166" width="108" height="32"/>
+                                <gestureRecognizers/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <state key="normal" title="Second Button"/>
                                 <connections>
-                                    <action selector="buttonTap:" destination="BYZ-38-t0r" eventType="touchUpInside" id="yTL-lz-O6u"/>
+                                    <outletCollection property="gestureRecognizers" destination="EwK-kS-Qs9" appends="YES" id="rg4-Ex-AXD"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="az6-W7-Mku">
-                                <rect key="frame" x="255" y="238" width="91" height="32"/>
+                                <rect key="frame" x="255" y="223" width="91" height="32"/>
+                                <gestureRecognizers/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <state key="normal" title="Third Button"/>
                                 <connections>
                                     <action selector="buttonTap:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Gfi-Da-y82"/>
+                                    <outletCollection property="gestureRecognizers" destination="gMZ-6I-oLi" appends="YES" id="H2H-Tb-nHu"/>
                                 </connections>
                             </button>
                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="3" minValue="1" maxValue="10" translatesAutoresizingMaskIntoConstraints="NO" id="dZN-PB-ogh">
-                                <rect key="frame" x="88" y="358" width="424" height="31"/>
+                                <rect key="frame" x="88" y="343" width="424" height="31"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="114" id="Nyo-87-hfe"/>
                                 </constraints>
@@ -58,12 +61,12 @@
                                 </connections>
                             </slider>
                             <label opaque="NO" userInteractionEnabled="NO" alpha="0.33000000000000002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="249" text="Pro tip: try rotating your phone!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Nr-hO-fBS">
-                                <rect key="frame" x="199" y="490" width="203" height="17"/>
+                                <rect key="frame" x="199" y="475" width="203" height="17"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="lx6-Oq-MEF">
-                                <rect key="frame" x="90" y="310" width="420" height="29"/>
+                                <rect key="frame" x="90" y="295" width="420" height="29"/>
                                 <segments>
                                     <segment title="Light"/>
                                     <segment title="Dark"/>
@@ -74,12 +77,12 @@
                                 </connections>
                             </segmentedControl>
                             <label opaque="NO" userInteractionEnabled="NO" alpha="0.33000000000000002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BD5-cW-OmZ">
-                                <rect key="frame" x="282" y="396" width="36" height="17"/>
+                                <rect key="frame" x="282" y="381" width="36" height="17"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="367-ak-Ezg">
-                                <rect key="frame" x="250" y="438" width="101" height="32"/>
+                                <rect key="frame" x="250" y="423" width="101" height="32"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <state key="normal" title="Show Options"/>
                                 <connections>
@@ -104,7 +107,7 @@
                             <constraint firstItem="BD5-cW-OmZ" firstAttribute="centerX" secondItem="dZN-PB-ogh" secondAttribute="centerX" id="o9Z-9y-BTX"/>
                             <constraint firstItem="dZN-PB-ogh" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="0.7" id="qhM-vS-byy"/>
                             <constraint firstItem="8Nr-hO-fBS" firstAttribute="top" secondItem="367-ak-Ezg" secondAttribute="bottom" constant="20" id="rEU-yp-EUb"/>
-                            <constraint firstItem="MyD-4P-G1y" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="60" id="tdb-7O-8xs"/>
+                            <constraint firstItem="MyD-4P-G1y" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="45" id="tdb-7O-8xs"/>
                             <constraint firstItem="az6-W7-Mku" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="xc7-U5-ONP"/>
                             <constraint firstItem="367-ak-Ezg" firstAttribute="top" secondItem="BD5-cW-OmZ" secondAttribute="bottom" constant="25" id="ys2-7f-drz"/>
                         </constraints>
@@ -122,6 +125,16 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="gMZ-6I-oLi">
+                    <connections>
+                        <action selector="buttonLongPress:" destination="BYZ-38-t0r" id="4jY-kR-46G"/>
+                    </connections>
+                </pongPressGestureRecognizer>
+                <tapGestureRecognizer numberOfTapsRequired="2" id="EwK-kS-Qs9">
+                    <connections>
+                        <action selector="buttonDoubleTap:" destination="BYZ-38-t0r" id="lDj-uV-ohH"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="1465" y="1304"/>
         </scene>

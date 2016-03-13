@@ -55,17 +55,9 @@
                        afterIdleInterval:self.delay];
     }];
     
-    UIAlertAction *longPress = [UIAlertAction actionWithTitle:@"Long Press" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *doubleTap = [UIAlertAction actionWithTitle:@"Double tap" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
-        [self showGestureAssistantForTap:PAGestureAssistantTapLongPress
-                                    view:self.button3
-                                    text:@"Long press me"
-                       afterIdleInterval:self.delay];
-    }];
-    
-    UIAlertAction *doubleTap = [UIAlertAction actionWithTitle:@"Custom Text Style" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        
-        NSAttributedString *attr = [[NSAttributedString alloc] initWithString:@"Create custom text styles"
+        NSAttributedString *attr = [[NSAttributedString alloc] initWithString:@"Double tap with custom text style"
                                                                    attributes:@{NSFontAttributeName:[UIFont fontWithName:@"Georgia-Italic" size:18],
                                                                                 NSBackgroundColorAttributeName: [UIColor yellowColor]}];
         
@@ -74,6 +66,14 @@
                           attributedText:attr
                        afterIdleInterval:self.delay
                               completion:nil];
+    }];
+    
+    UIAlertAction *longPress = [UIAlertAction actionWithTitle:@"Long Press" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+        [self showGestureAssistantForTap:PAGestureAssistantTapLongPress
+                                    view:self.button3
+                                    text:@"Long press me"
+                       afterIdleInterval:self.delay];
     }];
     
     UIAlertAction *swipe = [UIAlertAction actionWithTitle:@"Swipe" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
@@ -120,8 +120,8 @@
     UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
     
     [alertController addAction:singleTap];
-    [alertController addAction:longPress];
     [alertController addAction:doubleTap];
+    [alertController addAction:longPress];
     [alertController addAction:swipe];
     [alertController addAction:swipe2];
     [alertController addAction:tutorial];
@@ -188,13 +188,35 @@
 - (IBAction)buttonTap:(UIButton *)sender
 {
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Yo" message:sender.titleLabel.text preferredStyle:UIAlertControllerStyleAlert];
-    
     UIAlertAction *dismiss = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleCancel handler:nil];
-    
     [alertController addAction:dismiss];
-    
     [self presentViewController:alertController animated:YES completion:nil];
 }
 
+- (IBAction)buttonLongPress:(UILongPressGestureRecognizer *)sender
+{
+    if ([sender.view isKindOfClass:[UIButton class]]) {
+        
+        UIButton *button = (id)sender.view;
+        
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Long press yo" message:button.titleLabel.text preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *dismiss = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleCancel handler:nil];
+        [alertController addAction:dismiss];
+        [self presentViewController:alertController animated:YES completion:nil];
+    }
+}
+
+- (IBAction)buttonDoubleTap:(UILongPressGestureRecognizer *)sender
+{
+    if ([sender.view isKindOfClass:[UIButton class]]) {
+        
+        UIButton *button = (id)sender.view;
+        
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Double tap yo" message:button.titleLabel.text preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *dismiss = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleCancel handler:nil];
+        [alertController addAction:dismiss];
+        [self presentViewController:alertController animated:YES completion:nil];
+    }
+}
 
 @end
