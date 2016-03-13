@@ -1,6 +1,6 @@
 {
   "name": "PAGestureAssistant",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "summary": "PAGestureAssistant is a drop-in UIViewController category for showing interaction tips and tutorials to users.",
   "description": "PAGestureAssistant is a drop-in UIViewController category for showing interaction tips and tutorials to users that has predefined gestures for convenience and also the ability to define your own.",
   "homepage": "https://github.com/ipedro/PAGestureAssistant",
@@ -10,7 +10,7 @@
   },
   "source": {
     "git": "https://github.com/ipedro/PAGestureAssistant.git",
-    "tag": "0.1.0"
+    "tag": "0.1.2"
   },
   "social_media_url": "https://twitter.com/ipedro",
   "platforms": {
