@@ -403,7 +403,7 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
     }
     
     self.descriptionLabel.alpha        = 0;
-    self.descriptionLabel.shadowColor  = self.backgroundView.backgroundColor;
+    self.descriptionLabel.shadowColor  = [self.backgroundView.backgroundColor colorWithAlphaComponent:0.5];
     self.descriptionLabel.shadowOffset = CGSizeMake(0, 2);
     
     // add subviews
@@ -417,7 +417,10 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
 - (void)pa_userHasTouchedView:(UIView *)view event:(UIEvent *)event
 {
     if (self.isFadingOut || self.isFadingIn || self.backgroundView.alpha < 1) {
-        return;
+        
+        if (self.completion) {
+            return;
+        }
     }
     
     if (self.completion != nil) {
@@ -861,13 +864,13 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
             [view removeFromSuperview];
         }
         
-        self.viewController.view.tintAdjustmentMode = UIViewTintAdjustmentModeAutomatic;
+        self.viewController.view.tintAdjustmentMode                      = UIViewTintAdjustmentModeAutomatic;
         self.viewController.navigationController.view.tintAdjustmentMode = UIViewTintAdjustmentModeAutomatic;
         
         self.backgroundView.backgroundColor = [UIColor clearColor];
         self.isFadingOut = NO;
         
-        [self.backgroundView removeFromSuperview];
+        [self.backgroundView   removeFromSuperview];
         [self.descriptionLabel removeFromSuperview];
         
         if (completion) {
