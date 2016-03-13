@@ -281,21 +281,34 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
 {
     if (text) {
         
-        UIColor *color;
+        UIColor *textColor, *shadowColor;
         
         if ([[PAGestureAssistant appearance] textColor]) {
-            color = [[PAGestureAssistant appearance] textColor];
+            textColor = [[PAGestureAssistant appearance] textColor];
         }
         else if ([[PAGestureAssistant appearance] tapColor]) {
-            color = [[PAGestureAssistant appearance] tapColor];
+            textColor = [[PAGestureAssistant appearance] tapColor];
         }
         else {
-            color = kPAGestureAssistantDefaultGestureViewColor;
+            textColor = kPAGestureAssistantDefaultGestureViewColor;
         }
         
-        UIFont  *font  = [UIFont systemFontOfSize:kPAGestureAssistantDefaultFontSize];
+        if ([[PAGestureAssistant appearance] backgroundColor]) {
+            shadowColor = [[PAGestureAssistant appearance] backgroundColor];
+        }
+        else {
+            shadowColor = kPAGestureAssistantDefaultBackgroundColor;
+        }
         
-        NSDictionary *attributes = @{NSForegroundColorAttributeName:color, NSFontAttributeName:font};
+        UIFont  *font = [UIFont systemFontOfSize:kPAGestureAssistantDefaultFontSize];
+        
+        NSShadow *shadow    = [NSShadow new];
+        shadow.shadowOffset = CGSizeMake(0, 2);
+        shadow.shadowColor  = [shadowColor colorWithAlphaComponent:0.5f];
+        
+        NSDictionary *attributes = @{NSForegroundColorAttributeName: textColor,
+                                                NSFontAttributeName: font,
+                                              NSShadowAttributeName: shadow};
         
         return [[NSMutableAttributedString alloc] initWithString:text attributes:attributes];
     }
@@ -402,9 +415,7 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
         self.backgroundView.backgroundColor = kPAGestureAssistantDefaultBackgroundColor;
     }
     
-    self.descriptionLabel.alpha        = 0;
-    self.descriptionLabel.shadowColor  = [self.backgroundView.backgroundColor colorWithAlphaComponent:0.5];
-    self.descriptionLabel.shadowOffset = CGSizeMake(0, 2);
+    self.descriptionLabel.alpha = 0;
     
     // add subviews
     [self.window addSubview:self.backgroundView];
