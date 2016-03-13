@@ -9,55 +9,37 @@
 #import "PAViewController.h"
 #import "PAGestureAssistant.h"
 
-@interface PAViewController ()
-@property (weak, nonatomic) IBOutlet    UIButton *button1;
-@property (weak, nonatomic) IBOutlet    UIButton *button2;
-@property (weak, nonatomic) IBOutlet    UIButton *button3;
-@property (weak, nonatomic) IBOutlet    UIButton *optionsButton;
-@property (weak, nonatomic) IBOutlet    UISlider *slider;
-@property (weak, nonatomic) IBOutlet    UILabel  *sliderLabel;
+#define RGB(r, g, b)     [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:1]
+#define RGBA(r, g, b, a) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:(a)]
 
-@property (assign, nonatomic)           NSUInteger delay;
+@interface PAViewController ()
+@property (weak, nonatomic) IBOutlet UIButton           *button1;
+@property (weak, nonatomic) IBOutlet UIButton           *button2;
+@property (weak, nonatomic) IBOutlet UIButton           *button3;
+@property (weak, nonatomic) IBOutlet UIButton           *optionsButton;
+@property (weak, nonatomic) IBOutlet UISlider           *slider;
+@property (weak, nonatomic) IBOutlet UILabel            *sliderLabel;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
+
+@property (assign, nonatomic)        NSUInteger         delay;
 
 @end
 
 @implementation PAViewController
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
-    
-    [self changeDelay:self.slider];
-}
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
     
-    [self setupAssistant];
+    // init slider
+    [self changeDelay:self.slider];
+    
+    // init color theme
+    [self changeTheme:self.segmentedControl];
     
 }
 
-- (void)setupAssistant
-{
-    // Customize colors
-    
-    /* Sets a custom overlay color */
-    [[PAGestureAssistant appearance] setBackgroundColor:[UIColor colorWithWhite:1 alpha:0.75f]];
-    /* Sets a custom text color */
-    [[PAGestureAssistant appearance] setTextColor:self.view.tintColor];
-    /* Sets the gesture view color */
-    [[PAGestureAssistant appearance] setTapColor:self.view.tintColor];
-    /* Sets a custom image for the gesture view. Overrides the `tapColor`.
-     Image credits: https://dribbble.com/shots/1904249-Handy-Gestures */
-    [[PAGestureAssistant appearance] setTapImage:[[UIImage imageNamed:@"hand"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]];
-    
-    
-    [self showGestureAssistantForTap:PAGestureAssistantTapSingle
-                                view:self.optionsButton
-                                text:@"Tap to begin"
-                   afterIdleInterval:0];
-}
 
 - (IBAction)showOptions:(id)sender
 {
@@ -146,6 +128,55 @@
     [alertController addAction:cancel];
     
     [self presentViewController:alertController animated:YES completion:nil];
+}
+
+- (IBAction)changeTheme:(UISegmentedControl *)sender
+{
+    switch (sender.selectedSegmentIndex) {
+        case 0: // light
+            self.view.backgroundColor = RGB(255, 255, 255);
+            self.view.tintColor       = RGB(  0, 122, 255);
+
+            /* Sets a custom overlay color */
+            [[PAGestureAssistant appearance] setBackgroundColor:RGBA(255, 255, 255, 0.75f)];
+            /* Sets a custom text color */
+            [[PAGestureAssistant appearance] setTextColor:RGB(0, 122, 255)];
+            /* Sets the gesture view color */
+            [[PAGestureAssistant appearance] setTapColor:RGB(0, 122, 255)];
+            /* Sets a custom image for the gesture view. Overrides the `tapColor`.
+             Image credits: https://dribbble.com/shots/1904249-Handy-Gestures */
+            [[PAGestureAssistant appearance] setTapImage:[UIImage imageNamed:@"hand"]];
+            
+            break;
+        
+        case 1:
+            self.view.backgroundColor = RGB( 66,  66,  66);
+            self.view.tintColor       = RGB(100, 255, 111);
+            
+            [[PAGestureAssistant appearance] setBackgroundColor:RGBA(33, 33, 33, 0.7)];
+            [[PAGestureAssistant appearance] setTextColor:RGB(255, 255, 255)];
+            [[PAGestureAssistant appearance] setTapColor:RGB(100, 255, 111)];
+            [[PAGestureAssistant appearance] setTapImage:nil];
+            break;
+            
+        case 2:
+            self.view.backgroundColor = RGB( 98, 160, 255);
+            self.view.tintColor       = RGB(255, 255, 255);
+            
+            [[PAGestureAssistant appearance] setBackgroundColor:RGBA(33, 33, 33, 0.7)];
+            [[PAGestureAssistant appearance] setTextColor:RGB(255, 255, 255)];
+            [[PAGestureAssistant appearance] setTapColor:RGB(255, 255, 255)];
+            [[PAGestureAssistant appearance] setTapImage:[UIImage imageNamed:@"hand"]];
+            break;
+    }
+    
+    // needed to enforce the color change, normally wouldn't be needed
+    [self stopGestureAssistant];
+    
+    [self showGestureAssistantForTap:PAGestureAssistantTapSingle
+                                view:self.optionsButton
+                                text:@"Tap to begin"
+                   afterIdleInterval:self.delay];
 }
 
 - (IBAction)changeDelay:(UISlider *)sender
