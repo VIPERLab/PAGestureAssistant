@@ -778,6 +778,7 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
             case PAGestureAssistantOptionDoubleTap:
             case PAGestureAssistantOptionLongPress:
                 self.startPositions = @[NSStringFromCGPoint(startPoint)];
+                self.endPositions   = [NSArray array];
                 break;
                 
             case PAGestureAssistantOptionCustomSwipe:
