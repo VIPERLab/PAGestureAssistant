@@ -69,9 +69,9 @@ NS_ASSUME_NONNULL_END
 
 @interface PAGestureAssistant : NSObject <PAGestureDelegate>
 
-@property (nonatomic, readonly) BOOL isAnimating;
-@property (nonatomic, readonly) PAGestureAssistantOptions mode;
-@property (nonatomic, weak, nullable) UIView *targetView;
+@property (nonatomic, readonly)         BOOL                        isAnimating;
+@property (nonatomic, readonly)         PAGestureAssistantOptions   mode;
+@property (nonatomic, weak, nullable)   UIView                      *targetView;
 
 NS_ASSUME_NONNULL_BEGIN
 /** The Appearance delegate. */
