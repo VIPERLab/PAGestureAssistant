@@ -66,7 +66,7 @@
     UIAlertAction *doubleTap = [UIAlertAction actionWithTitle:@"Custom Text Style" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
         NSAttributedString *attr = [[NSAttributedString alloc] initWithString:@"Create custom text styles"
-                                                                   attributes:@{NSFontAttributeName:[UIFont fontWithName:@"Georgia-Italic" size:16],
+                                                                   attributes:@{NSFontAttributeName:[UIFont fontWithName:@"Georgia-Italic" size:18],
                                                                                 NSBackgroundColorAttributeName: [UIColor yellowColor]}];
         
         [self showGestureAssistantForTap:PAGestureAssistantTapDouble
