@@ -508,7 +508,7 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
     
     CGFloat labelMargin = 30;
     CGFloat labelY      = animationRect.origin.y + animationRect.size.height + kPAGestureAssistantDefaultViewSize + labelMargin;
-    CGFloat labelHeight = MAX(textSize.height, 100);
+    CGFloat labelHeight = MAX(textSize.height, 150);
     
     // check screen overflow
     if (labelHeight + labelY > screenHeight) {
@@ -517,11 +517,11 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
     }
     
     // check overlap with gesture
-    if (CGRectGetMinY(animationRect) - labelMargin - topMargin > labelHeight &&
-        labelHeight / textSize.height < 0.8) {
+    if ((CGRectGetMinY(animationRect) - labelMargin - topMargin) > labelHeight &&
+        (labelHeight / textSize.height) < 0.8) {
         
-        labelY      = topMargin;
-        labelHeight = CGRectGetMinY(animationRect) - labelMargin - topMargin;
+        labelY      = MAX(topMargin, screenHeight - topMargin - textSize.height);
+        labelHeight = CGRectGetMinY(animationRect) - labelMargin - labelY;
     }
     
     self.descriptionLabel.alpha = 0;
