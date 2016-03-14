@@ -304,8 +304,8 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
         
         NSShadow *shadow        = [NSShadow new];
         shadow.shadowOffset     = CGSizeMake(0, 2);
-        shadow.shadowColor      = [shadowColor colorWithAlphaComponent:0.6f];
-        shadow.shadowBlurRadius = 2;
+        shadow.shadowColor      = shadowColor;
+        shadow.shadowBlurRadius = 12;
         
         NSDictionary *attributes = @{NSForegroundColorAttributeName: textColor,
                                      NSFontAttributeName: font,
@@ -399,6 +399,9 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
     self.descriptionLabel.textAlignment = NSTextAlignmentCenter;
     self.descriptionLabel.numberOfLines = 0;
     self.descriptionLabel.alpha         = 0;
+    
+    // debug
+    // self.descriptionLabel.backgroundColor = [UIColor yellowColor];
 }
 
 
@@ -417,20 +420,20 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
     NSInteger viewCount      = 0;
     CGFloat screenWidth      = [UIScreen mainScreen].bounds.size.width;
     CGFloat screenHeight     = [UIScreen mainScreen].bounds.size.height;
+    CGFloat screenTopMargin  = MAX (30, self.viewController.navigationController.navigationBar.bottom);
     CGFloat horizontalCenter = screenWidth/2;
-    CGFloat topMargin        = MAX (30, 10 + self.viewController.navigationController.navigationBar.bottom);
     
     switch (self.mode) {
             
         case PAGestureAssistantOptionSwipeDown:
             viewCount = 1;
             start = @[NSStringFromCGPoint(CGPointMake(horizontalCenter, round(screenHeight * 0.2)))];
-            stop  = @[NSStringFromCGPoint(CGPointMake(horizontalCenter, round(screenHeight * 0.7)))];
+            stop  = @[NSStringFromCGPoint(CGPointMake(horizontalCenter, round(screenHeight * 0.66)))];
             break;
             
         case PAGestureAssistantOptionSwipeUp:
             viewCount = 1;
-            start = @[NSStringFromCGPoint(CGPointMake(horizontalCenter, round(screenHeight * 0.65)))];
+            start = @[NSStringFromCGPoint(CGPointMake(horizontalCenter, round(screenHeight * 0.66)))];
             stop  = @[NSStringFromCGPoint(CGPointMake(horizontalCenter, round(screenHeight * 0.15)))];
             break;
             
@@ -497,31 +500,29 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
         CGPoint p0 = CGPointFromString(start[i]);
         CGPoint p1 = CGPointFromString(stop[i]);
         
-        animationRect.origin.x      = MIN(animationRect.origin.x,    MIN(p0.x, p1.x));
+        animationRect.origin.x      = 0; //MIN(animationRect.origin.x,    MIN(p0.x, p1.x));
         animationRect.origin.y      = MIN(animationRect.origin.y,    MIN(p0.y, p1.y));
-        animationRect.size.width    = MAX(animationRect.size.width,  MAX(p0.x, p1.x) - animationRect.origin.x);
         animationRect.size.height   = MAX(animationRect.size.height, MAX(p0.y, p1.y) - animationRect.origin.y);
+        animationRect.size.width    = screenWidth; //MAX(animationRect.size.width,  MAX(p0.x, p1.x) - animationRect.origin.x);
     }
     
+    CGFloat labelY      = 0;
+    CGFloat labelMargin = 30;
     CGFloat labelWidth  = screenWidth * 0.7;
     CGSize  textSize    = [self.descriptionLabel.attributedText boundingRectWithSize:CGSizeMake(labelWidth, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin context:nil].size;
+    CGFloat labelHeight = MAX(60, textSize.height + 6); // adding a bit of leeway
     
-    CGFloat labelMargin = 30;
-    CGFloat labelY      = animationRect.origin.y + animationRect.size.height + kPAGestureAssistantDefaultViewSize + labelMargin;
-    CGFloat labelHeight = MAX(textSize.height, 150);
+    // position label
+    CGFloat spaceAbove = CGRectGetMinY(animationRect) - labelMargin;
+    CGFloat spaceBelow = screenHeight - CGRectGetMaxY(animationRect) - kPAGestureAssistantDefaultViewSize - labelMargin;
     
-    // check screen overflow
-    if (labelHeight + labelY > screenHeight) {
+    if (spaceBelow >= labelHeight) {
         
-        labelHeight += screenHeight - (labelHeight + labelY + labelMargin);
+        labelY = CGRectGetMaxY(animationRect) + kPAGestureAssistantDefaultViewSize + labelMargin;
     }
-    
-    // check overlap with gesture
-    if ((CGRectGetMinY(animationRect) - labelMargin - topMargin) > labelHeight &&
-        (labelHeight / textSize.height) < 0.8) {
+    else {
         
-        labelY      = MAX(topMargin, screenHeight - topMargin - textSize.height);
-        labelHeight = CGRectGetMinY(animationRect) - labelMargin - labelY;
+        labelY = MAX(screenTopMargin, CGRectGetMinY(animationRect) - labelMargin - labelHeight);
     }
     
     self.descriptionLabel.alpha = 0;
@@ -611,6 +612,10 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
 {
     if ([self.idleTimer isEqual:timer]) {
         
+        // prepare subviews
+        [self pa_prepareViews];
+        
+        // animate!
         [self pa_commitAnimationWithDelay:1];
         
     }
@@ -626,7 +631,7 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
 
 - (void)pa_commitAnimationWithDelay:(CGFloat)delay
 {
-    // check if view is presenting something
+    // abort if view is already presenting
     if (self.viewController.presentedViewController) {
         
         [self pa_timerStart];
@@ -932,9 +937,6 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
         _completion     = completion;
         _descriptionLabel.attributedText = attributedText ? attributedText : [[NSAttributedString alloc] initWithString:@""];
         
-        // prepare subviews
-        [self pa_prepareViews];
-        
         // start timer
         [self pa_timerStart];
         
@@ -1015,9 +1017,6 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
         if (self.mode != PAGestureAssistantOptionUndefined)
         {
             self.isAnimating = YES;
-            
-            // prepare subviews
-            [self pa_prepareViews];
             
             // start timer
             [self pa_timerStart];
