@@ -129,7 +129,7 @@ Pedro Almeida, [@ipedro](https://twitter.com/ipedro)
 ## Credits
 
 Hand icon by [Zach Blevins](https://dribbble.com/shots/1904249-Handy-Gestures).
-The category implementation was inspired by the very good [DZNEmptyDataSet](https://github.com/dzenbot/DZNEmptyDataSet).
+The category implementation was inspired by Bryce Buchanan's [swizzling method]( https://blog.newrelic.com/2014/04/16/right-way-to-swizzle/).
 ## License
 
 PAGestureAssistant is available under the MIT license.
