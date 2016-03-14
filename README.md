@@ -41,6 +41,12 @@ Then, in your `viewDidAppear` set your assistant.
 ```
 That's it!
 
+You can manually kill the assistant anytime, but shouldn't have to.
+```
+- (void)stopGestureAssistant;
+- (void)stopGestureAssistantWithCompletion:(PAGestureCompletion)completion;
+```
+
 ## Behaviors
 
 This pod has two distinct behaviors:
