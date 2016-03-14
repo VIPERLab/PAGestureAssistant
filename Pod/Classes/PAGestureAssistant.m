@@ -131,6 +131,11 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
     [self.gestureAssistant pa_dismiss];
 }
 
+- (void)stopGestureAssistantWithCompletion:(nonnull PAGestureCompletion)completion
+{
+    [self.gestureAssistant pa_dismiss:completion];
+}
+
 #pragma mark - Show -
 
 - (void)showGestureAssistantForTap:(PAGestureAssistantTap)tapOptions view:(nonnull UIView *)targetView attributedText:(nullable NSAttributedString *)attributedText afterIdleInterval:(NSTimeInterval)delay completion:(nullable PAGestureCompletion)completion

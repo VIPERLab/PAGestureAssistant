@@ -93,6 +93,11 @@ NS_ASSUME_NONNULL_END
  @discussion Do not call directly!
  */
 - (void)pa_dismiss;
+/**
+ Private method. Stops the animation and kills the timer and calls the completion block
+ @discussion Do not call directly!
+ */
+- (void)pa_dismiss:(nullable PAGestureCompletion)completion;
 
 @end
 
@@ -109,6 +114,11 @@ NS_ASSUME_NONNULL_END
  Dismisses any currently active animation and kills the timer.
  */
 - (void)stopGestureAssistant;
+
+/**
+ Dismisses any currently active animation and kills the timer and executes the completion block
+ */
+- (void)stopGestureAssistantWithCompletion:(nonnull PAGestureCompletion)completion;
 
 #pragma mark Regular Text
 
