@@ -96,7 +96,7 @@
     
     UIAlertAction *swipe2 = [UIAlertAction actionWithTitle:@"Custom Swipe" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
-        [self showGestureAssistantForSwipeWithStartPoint:CGPointMake(300, 60) endPoint:CGPointMake(60, 300)
+        [self showGestureAssistantForSwipeWithStartPoint:CGPointMake(300, 60) endPoint:CGPointMake(60, 350)
                                                     text:@"You can create custom swipes"
                                        afterIdleInterval:self.delay];
     }];
@@ -138,7 +138,7 @@
             self.view.tintColor       = RGB(  0, 122, 255);
 
             /* Sets a custom overlay color */
-            [[PAGestureAssistant appearance] setBackgroundColor:RGBA(255, 255, 255, 0.75f)];
+            [[PAGestureAssistant appearance] setBackgroundColor:RGBA(255, 255, 255, 0.75)];
             /* Sets a custom text color */
             [[PAGestureAssistant appearance] setTextColor:RGB(0, 122, 255)];
             /* Sets the gesture view color */
@@ -150,12 +150,12 @@
             break;
         
         case 1:
-            self.view.backgroundColor = RGB( 66,  66,  66);
-            self.view.tintColor       = RGB(100, 255, 111);
+            self.view.backgroundColor = RGB( 47,  78, 125);
+            self.view.tintColor       = RGB( 98, 160, 255);
             
-            [[PAGestureAssistant appearance] setBackgroundColor:RGBA(33, 33, 33, 0.7)];
+            [[PAGestureAssistant appearance] setBackgroundColor:RGBA(33, 33, 33, 0.75)];
             [[PAGestureAssistant appearance] setTextColor:RGB(255, 255, 255)];
-            [[PAGestureAssistant appearance] setTapColor:RGB(100, 255, 111)];
+            [[PAGestureAssistant appearance] setTapColor:RGB( 98, 160, 255)];
             [[PAGestureAssistant appearance] setTapImage:nil];
             break;
             
@@ -163,7 +163,7 @@
             self.view.backgroundColor = RGB( 98, 160, 255);
             self.view.tintColor       = RGB(255, 255, 255);
             
-            [[PAGestureAssistant appearance] setBackgroundColor:RGBA(33, 33, 33, 0.7)];
+            [[PAGestureAssistant appearance] setBackgroundColor:RGBA(33, 33, 33, 0.75)];
             [[PAGestureAssistant appearance] setTextColor:RGB(255, 255, 255)];
             [[PAGestureAssistant appearance] setTapColor:RGB(255, 255, 255)];
             [[PAGestureAssistant appearance] setTapImage:[UIImage imageNamed:@"hand"]];
