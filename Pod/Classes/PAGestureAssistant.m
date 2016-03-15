@@ -396,7 +396,6 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
     self.startPositions                 = [NSArray array];
     self.endPositions                   = [NSArray array];
     
-    self.backgroundView.alpha           = 0;
     self.backgroundView                 = [[PAGestureBackgroundView alloc] initWithDelegate:self];
     
     self.descriptionLabel               = [[UILabel alloc] init];
@@ -469,7 +468,7 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
             break;
             
         case PAGestureAssistantOptionUndefined:
-            NSLog(@"[%@] Can't have undefined type!", NSStringFromClass([self class]));
+            //NSLog(@"[%@] Can't have undefined type!", NSStringFromClass([self class]));
             return;
     }
     
@@ -535,15 +534,9 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
                                              round(labelY),
                                              round(labelWidth),
                                              round(labelHeight));
-    // Background
-    self.backgroundView.alpha = 0;
-    self.backgroundView.backgroundColor = [[[self class] appearance] backgroundColor] ? [[[self class] appearance] backgroundColor] : kPAGestureAssistantDefaultBackgroundColor;
-    
     
     // add subviews
-    [self.window addSubview:self.backgroundView];
     [self.window addSubview:self.descriptionLabel];
-    
     
 }
 
@@ -551,7 +544,7 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
 
 - (void)pa_userHasTouchedView:(UIView *)view event:(UIEvent *)event
 {
-    if (self.isFadingOut || self.isFadingIn || self.backgroundView.alpha < 1) {
+    if (self.isFadingOut || self.isFadingIn || [self.backgroundView.backgroundColor isEqual:[UIColor clearColor]]) {
         
         if (self.completion) {
             return;
@@ -605,6 +598,9 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
     
     [self.idleTimer invalidate];
     self.idleTimer = nil;
+    
+    // set background
+    [self pa_prepareBackground];
     
     self.idleTimer = [NSTimer scheduledTimerWithTimeInterval:MAX(0.1f, self.idleTimerDelay)
                                                       target:self
@@ -695,8 +691,8 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
                         options:[self pa_defaultAnimationOptions]
                      animations:^{
                          
-                         self.backgroundView.alpha = 1;
-                         
+                         self.backgroundView.backgroundColor = [[[self class] appearance] backgroundColor] ? [[[self class] appearance] backgroundColor] : kPAGestureAssistantDefaultBackgroundColor;
+                        
                      } completion:^(BOOL finished) {
                          
                          self.isFadingIn = NO;
@@ -944,8 +940,13 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
         
         // start timer
         [self pa_timerStart];
-        
     }];
+}
+
+- (void)pa_prepareBackground
+{
+    self.backgroundView.backgroundColor = [UIColor clearColor];
+    [self.window addSubview:self.backgroundView];
 }
 
 - (void)pa_dismiss:(nullable PAGestureCompletion)completion
@@ -977,7 +978,7 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
     [UIView animateWithDuration:kPAGestureAssistantDefaultViewPulseDuration/3 delay:0 options:[self pa_defaultAnimationOptions] animations:^{
         
         self.descriptionLabel.alpha = 0;
-        self.backgroundView.alpha = 0;
+        self.backgroundView.backgroundColor = [UIColor clearColor];
         
         for (PAGestureView *view in self.views) {
             
@@ -997,7 +998,6 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
         self.viewController.view.tintAdjustmentMode                      = UIViewTintAdjustmentModeAutomatic;
         self.viewController.navigationController.view.tintAdjustmentMode = UIViewTintAdjustmentModeAutomatic;
         
-        self.backgroundView.backgroundColor = [UIColor clearColor];
         self.isFadingOut = NO;
         
         [self.backgroundView   removeFromSuperview];
