@@ -8,11 +8,43 @@
 
 PAGestureAssistant is a drop-in UIViewController category for showing interaction tips and tutorials to users that has predefined gestures for convenience and also the ability to define your own.
 
+## Behaviors
+
+This pod has two distinct behaviors:
+
+#### Assistant Mode
+Ideal for non-obvious usage patterns, like swiping down to dismiss a view.
+
+Every time the user idles for longer than the defined interval the animation kicks in, and any user interaction passes through to the views below. To achieve this behavior, use any of the `showGestureAssistant` methods **without a completion block**.
+
+#### Tutorial Mode
+Ideal for teaching users intricate flows.
+
+After the defined interval the animation will show only once, and any user interaction will be blocked. To achieve this behavior **simply pass a completion block** (even an empty one) to any of the `showGestureAssistant` methods.
+
 ## Usage
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
-Choose from a set of predefined animations from the list below, or define your own custom swipe with a `startPoint` and `endPoint`.
+Then, in your `viewDidAppear` set your assistant. ``Don't try to call if before``
+
+```objc
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+
+    // Shows a tap gesture animation in the view's center
+    // everytime the user idles for more than 5 seconds.
+    [self showGestureAssistantForTap:PAGestureAssistantTapSingle
+                                view:self.view
+                                text:@"Tap here to begin"
+                   afterIdleInterval:5];
+}
+```
+
+That's it!
+
+You can choose from a set of predefined animations from the list below, or define your own custom swipe with a `startPoint` and `endPoint` (check tutorial example below).
 
 ```objc
 // Tap animations
@@ -27,43 +59,13 @@ PAGestureAssistantSwipeDirectonLeft
 PAGestureAssistantSwipeDirectonRight
 ```
 
-Then, in your `viewDidAppear` set your assistant.
 
-```objc
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-
-    // Shows a tap gesture animation with a label in the view's center after 5 seconds
-    [self showGestureAssistantForTap:PAGestureAssistantTapSingle
-                                view:self.view
-                                text:@"Tap here to begin"
-                   afterIdleInterval:5];
-}
-```
-
-That's it!
-
-You can manually kill the assistant anytime, but shouldn't have to.
+You can also disable  the assistant anytime (but shouldn't really need to).
 
 ```objc
 - (void)stopGestureAssistant;
 - (void)stopGestureAssistantWithCompletion:(PAGestureCompletion)completion;
 ```
-
-## Behaviors
-
-This pod has two distinct behaviors:
-
-#### Assistant Mode
-Ideal for non-obvious usage patterns, like swiping down to dismiss a view.
-
-Every time the user idles for longer than the defined interval the animation kicks in, and any user interaction passes through to the views below. To achieve this behavior, simply don't pass a completion block in any of the `showGestureAssistant` methods.
-
-#### Tutorial Mode
-Ideal for teaching users intricate flows.
-
-After the defined interval the animation will show only once, and any user interaction will be blocked. To achieve this behavior simply pass a completion block (even one that does nothing) to any of the `showGestureAssistant` methods.
 
 ## Appearance
 You can customize the following properties, and/or use a `NSAttributedString` to format text as you wish.
@@ -79,7 +81,7 @@ You can customize the following properties, and/or use a `NSAttributedString` to
 [[PAGestureAssistant appearance] setTapColor:self.view.tintColor];
 
 /* Sets a custom image for the gesture view */
-//[[PAGestureAssistant appearance] setTapImage:[UIImage imageNamed:@"image"]];
+[[PAGestureAssistant appearance] setTapImage:[UIImage imageNamed:@"imageName"]];
 ```
 
 ## Examples
@@ -91,24 +93,25 @@ Tutorial Example:
 // First show a custom swipe...
 [self showGestureAssistantForSwipeWithStartPoint:CGPointMake(60, 60)
                                         endPoint:self.view.center
-                                            text:@"You can create custom swipes"
+                                            text:@"This is a custom swipe"
                                afterIdleInterval:0
                                       completion:^(BOOL finished) {
 
     // ...then a tap on a button...
     [self showGestureAssistantForTap:PAGestureAssistantTapSingle
                                 view:self.button
-                                text:@"Tap twice"
+                                text:@"This is a single tap"
                    afterIdleInterval:0
                           completion:^(BOOL finished) {
 
         // ...and a swipe up gesture
         [self showGestureAssistantForSwipeDirection:PAGestureAssistantSwipeDirectonUp
-                                               text:@"Swipe up"
+                                               text:@"This is a swipe up"
                                   afterIdleInterval:0
                                          completion:^(BOOL finished) {
 
-            NSLog(@"Tutorial complete");
+                                              // do something
+                                              NSLog(@"Tutorial complete");
 
         }];
     }];
@@ -143,7 +146,7 @@ The category implementation was inspired by Bryce Buchanan's [swizzling method](
 
 PAGestureAssistant is available under the MIT license.
 
-Copyright (c) 2016 Pedro Almeida
+Copyright (c) 2016 Pedro Almeida.
 
 ```
 Permission is hereby granted, free of charge, to any person obtaining a copy
