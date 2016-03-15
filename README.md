@@ -25,7 +25,7 @@ PAGestureAssistantSwipeDirectonDown
 PAGestureAssistantSwipeDirectonLeft
 PAGestureAssistantSwipeDirectonRight
 
-```
+```objc
 Then, in your `viewDidAppear` set your assistant.
 ```
 - (void)viewDidAppear:(BOOL)animated
@@ -42,7 +42,7 @@ Then, in your `viewDidAppear` set your assistant.
 That's it!
 
 You can manually kill the assistant anytime, but shouldn't have to.
-```
+```objc
 - (void)stopGestureAssistant;
 - (void)stopGestureAssistantWithCompletion:(PAGestureCompletion)completion;
 ```
@@ -64,7 +64,7 @@ After the defined interval the animation will show only once, and any user inter
 ## Appearance
 You can customize the following properties, and/or use a `NSAttributedString` to format text as you wish.
 
-```
+```objc
 /* Sets a custom overlay color */
 [[PAGestureAssistant appearance] setBackgroundColor:[UIColor colorWithWhite:1 alpha:0.8f]];
 
@@ -82,7 +82,7 @@ You can customize the following properties, and/or use a `NSAttributedString` to
 ## Examples
 Tutorial Example:
 
-```
+```objc
 /* Chain multiple calls to achieve a tutorial effect */
 
 // First show a custom swipe...
