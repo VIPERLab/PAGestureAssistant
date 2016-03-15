@@ -423,8 +423,8 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
     NSArray *stop  = @[];
     
     NSInteger viewCount      = 0;
-    CGFloat screenWidth      = [UIScreen mainScreen].bounds.size.width;
-    CGFloat screenHeight     = [UIScreen mainScreen].bounds.size.height;
+    CGFloat screenWidth      = self.window.width;
+    CGFloat screenHeight     = self.window.height;
     CGFloat screenTopMargin  = MAX (30, self.viewController.navigationController.navigationBar.bottom);
     CGFloat horizontalCenter = screenWidth/2;
     

@@ -127,6 +127,9 @@
     [alertController addAction:tutorial];
     [alertController addAction:cancel];
     
+    // regular size class compatibility
+    [alertController.popoverPresentationController setSourceView:self.optionsButton];
+    
     [self presentViewController:alertController animated:YES completion:nil];
 }
 
