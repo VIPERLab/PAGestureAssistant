@@ -13,7 +13,8 @@ PAGestureAssistant is a drop-in UIViewController category for showing interactio
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
 Choose from a set of predefined animations from the list below, or define your own custom swipe with a `startPoint` and `endPoint`.
-```
+
+```objc
 // Tap animations
 PAGestureAssistantTapSingle
 PAGestureAssistantTapLongPress
@@ -24,10 +25,11 @@ PAGestureAssistantSwipeDirectonUp
 PAGestureAssistantSwipeDirectonDown
 PAGestureAssistantSwipeDirectonLeft
 PAGestureAssistantSwipeDirectonRight
+```
+
+Then, in your `viewDidAppear` set your assistant.
 
 ```objc
-Then, in your `viewDidAppear` set your assistant.
-```
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
@@ -39,9 +41,11 @@ Then, in your `viewDidAppear` set your assistant.
                    afterIdleInterval:5];
 }
 ```
+
 That's it!
 
 You can manually kill the assistant anytime, but shouldn't have to.
+
 ```objc
 - (void)stopGestureAssistant;
 - (void)stopGestureAssistantWithCompletion:(PAGestureCompletion)completion;
@@ -76,7 +80,6 @@ You can customize the following properties, and/or use a `NSAttributedString` to
 
 /* Sets a custom image for the gesture view */
 //[[PAGestureAssistant appearance] setTapImage:[UIImage imageNamed:@"image"]];
-
 ```
 
 ## Examples
