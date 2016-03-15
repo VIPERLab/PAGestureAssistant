@@ -518,7 +518,7 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
     CGFloat labelHeight = MAX(60, textSize.height + 6); // adding a bit of leeway
     
     // position label
-    CGFloat spaceAbove = CGRectGetMinY(animationRect) - labelMargin;
+    // CGFloat spaceAbove = CGRectGetMinY(animationRect) - labelMargin;
     CGFloat spaceBelow = screenHeight - CGRectGetMaxY(animationRect) - kPAGestureAssistantDefaultViewSize - labelMargin;
     
     if (spaceBelow >= labelHeight) {
