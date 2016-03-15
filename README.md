@@ -118,7 +118,7 @@ Tutorial Example:
 
 ## Requirements
 
-- iOS 8.0+
+- iOS 7.0+
 - If you install it manually, you must also copy  [FrameAccessor](https://github.com/AlexDenisov/FrameAccessor).
 
 
