@@ -602,7 +602,7 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
     // set background
     [self pa_prepareBackground];
     
-    self.idleTimer = [NSTimer scheduledTimerWithTimeInterval:MAX(0.1f, self.idleTimerDelay)
+    self.idleTimer = [NSTimer scheduledTimerWithTimeInterval:self.idleTimerDelay
                                                       target:self
                                                     selector:@selector(pa_timerTick:)
                                                     userInfo:nil
@@ -933,7 +933,7 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
         }
         
         _mode           = mode;
-        _idleTimerDelay = delay;
+        _idleTimerDelay = MAX(0.1f, delay);
         _targetView     = targetView;
         _completion     = completion;
         _descriptionLabel.attributedText = attributedText ? attributedText : [[NSAttributedString alloc] initWithString:@""];
