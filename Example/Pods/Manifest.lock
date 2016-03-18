@@ -1,6 +1,6 @@
 PODS:
   - FrameAccessor (2.0)
-  - PAGestureAssistant (0.2.4):
+  - PAGestureAssistant (0.2.5):
     - FrameAccessor (~> 2.0)
 
 DEPENDENCIES:
@@ -12,6 +12,6 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   FrameAccessor: 443a13e58e23a10ff22180da0897b28c3f6abf66
-  PAGestureAssistant: cfc767640cd088ad7ca4f02a44243c5d68db0f7d
+  PAGestureAssistant: 484ed02787d7ee82c6ba83a1ca02f80a55703774
 
 COCOAPODS: 0.39.0
