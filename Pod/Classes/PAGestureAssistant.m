@@ -76,7 +76,7 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
     // dismiss on hide
     if (self.presentingViewController.gestureAssistant) {
         
-        [self.presentingViewController.gestureAssistant pa_dismiss];
+        [self.presentingViewController.gestureAssistant pa_dismiss:animated];
     }
 }
 
@@ -108,7 +108,7 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
     // just to be safe, shouldn't have to
     if (self.gestureAssistant) {
         
-        [self.gestureAssistant pa_dismiss];
+        [self.gestureAssistant pa_dismiss:animated];
     }
 }
 
@@ -128,12 +128,12 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
 
 - (void)stopGestureAssistant
 {
-    [self.gestureAssistant pa_dismiss];
+    [self.gestureAssistant pa_dismiss:NO];
 }
 
 - (void)stopGestureAssistantWithCompletion:(nonnull PAGestureCompletion)completion
 {
-    [self.gestureAssistant pa_dismiss:completion];
+    [self.gestureAssistant pa_dismiss:YES completion:completion];
 }
 
 #pragma mark - Show -
@@ -555,7 +555,7 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
         
         self.isFadingOut = YES;
         //NSLog(@"[%@] user touch. completing task...", NSStringFromClass([self class]));
-        [self pa_dismiss:^(BOOL finished) {
+        [self pa_dismiss:YES completion:^(BOOL finished) {
             
             dispatch_async(dispatch_get_main_queue(),^{
                 if (self.completion) {
@@ -578,7 +578,7 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
     else {
         
         //NSLog(@"[%@] user touch. dismissing...", NSStringFromClass([self class]));
-        [self pa_dismiss];
+        [self pa_dismiss:YES];
     }
 }
 
@@ -903,7 +903,7 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
         startPoint = [self centerPointForView:targetView];
     }
     
-    [self pa_dismiss:^(BOOL finished) {
+    [self pa_dismiss:YES completion:^(BOOL finished) {
         
         switch (mode)
         {
@@ -949,7 +949,7 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
     [self.window addSubview:self.backgroundView];
 }
 
-- (void)pa_dismiss:(nullable PAGestureCompletion)completion
+- (void)pa_dismiss:(BOOL)animated completion:(nullable PAGestureCompletion)completion
 {
     if (self.mode == PAGestureAssistantOptionUndefined) {
         
@@ -975,7 +975,10 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
     [self.window.layer removeAllAnimations];
     
     // fade out views
-    [UIView animateWithDuration:kPAGestureAssistantDefaultViewPulseDuration/3 delay:0 options:[self pa_defaultAnimationOptions] animations:^{
+    [UIView animateWithDuration:animated ? kPAGestureAssistantDefaultViewPulseDuration/3 : 0
+                          delay:0
+                        options:[self pa_defaultAnimationOptions]
+                     animations:^{
         
         self.descriptionLabel.alpha = 0;
         self.backgroundView.backgroundColor = [UIColor clearColor];
@@ -1012,12 +1015,17 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
 
 - (void)pa_dismiss
 {
-    [self pa_dismiss:nil];
+    [self pa_dismiss:NO completion:nil];
+}
+
+- (void)pa_dismiss:(BOOL)animated
+{
+    [self pa_dismiss:animated completion:nil];
 }
 
 - (void)pa_dismissThenResume
 {
-    [self pa_dismiss:^(BOOL finished) {
+    [self pa_dismiss:YES completion:^(BOOL finished) {
         
         if (self.mode != PAGestureAssistantOptionUndefined)
         {
