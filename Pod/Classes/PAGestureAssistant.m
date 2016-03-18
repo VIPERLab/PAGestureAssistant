@@ -613,6 +613,13 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
 {
     if ([self.idleTimer isEqual:timer]) {
         
+        // abort if view is already presenting
+        if (self.viewController.presentedViewController) {
+            
+            [self pa_timerStart];
+            return;
+        }
+        
         // prepare subviews
         [self pa_prepareViews];
         
@@ -632,13 +639,6 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
 
 - (void)pa_commitAnimationWithDelay:(CGFloat)delay
 {
-    // abort if view is already presenting
-    if (self.viewController.presentedViewController) {
-        
-        [self pa_timerStart];
-        return;
-    }
-    
     // kill timer
     [self.idleTimer invalidate];
     self.idleTimer = nil;
