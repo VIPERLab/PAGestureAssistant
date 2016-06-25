@@ -23,6 +23,7 @@
 		6DD518A7A052186532E71F74 /* Pods_PAGestureAssistant_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8878D34962B1D7686B829CCC /* Pods_PAGestureAssistant_Example.framework */; };
 		873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 873B8AEA1B1F5CCA007FD442 /* Main.storyboard */; };
 		9648F327D157B840479D4C52 /* Pods_PAGestureAssistant_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8647B05E9D2D538866D9DE90 /* Pods_PAGestureAssistant_Tests.framework */; };
+		EB5F843C1D1EF4D4000AD5EB /* PAModalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EB5F843B1D1EF4D4000AD5EB /* PAModalViewController.m */; };
 		EBBD1BD41C949FDD002E60AE /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EBBD1BD31C949FDD002E60AE /* Launch Screen.storyboard */; };
 /* End PBXBuildFile section */
 
@@ -66,6 +67,8 @@
 		C0E6194C4389B0AC2999975F /* Pods-PAGestureAssistant_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PAGestureAssistant_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-PAGestureAssistant_Example/Pods-PAGestureAssistant_Example.release.xcconfig"; sourceTree = "<group>"; };
 		C382300038B7BBB2305B23B5 /* PAGestureAssistant.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = PAGestureAssistant.podspec; path = ../PAGestureAssistant.podspec; sourceTree = "<group>"; };
 		DF57D8C742E3BD398CD17F8D /* Pods-PAGestureAssistant_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PAGestureAssistant_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PAGestureAssistant_Example/Pods-PAGestureAssistant_Example.debug.xcconfig"; sourceTree = "<group>"; };
+		EB5F843A1D1EF4D4000AD5EB /* PAModalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PAModalViewController.h; sourceTree = "<group>"; };
+		EB5F843B1D1EF4D4000AD5EB /* PAModalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PAModalViewController.m; sourceTree = "<group>"; };
 		EBBD1BD31C949FDD002E60AE /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -138,6 +141,8 @@
 				EBBD1BD31C949FDD002E60AE /* Launch Screen.storyboard */,
 				6003F5A5195388D20070C39A /* PAViewController.h */,
 				6003F5A6195388D20070C39A /* PAViewController.m */,
+				EB5F843A1D1EF4D4000AD5EB /* PAModalViewController.h */,
+				EB5F843B1D1EF4D4000AD5EB /* PAModalViewController.m */,
 				6003F5A8195388D20070C39A /* Images.xcassets */,
 				6003F594195388D20070C39A /* Supporting Files */,
 			);
@@ -397,6 +402,7 @@
 				6003F59E195388D20070C39A /* PAAppDelegate.m in Sources */,
 				6003F5A7195388D20070C39A /* PAViewController.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
+				EB5F843C1D1EF4D4000AD5EB /* PAModalViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

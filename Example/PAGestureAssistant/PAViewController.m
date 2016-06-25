@@ -198,7 +198,7 @@
 
 - (IBAction)buttonLongPress:(UILongPressGestureRecognizer *)sender
 {
-    if ([sender.view isKindOfClass:[UIButton class]]) {
+    if (sender.state == UIGestureRecognizerStateBegan) {
         
         UIButton *button = (id)sender.view;
         
@@ -206,10 +206,11 @@
         UIAlertAction *dismiss = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleCancel handler:nil];
         [alertController addAction:dismiss];
         [self presentViewController:alertController animated:YES completion:nil];
+    
     }
 }
 
-- (IBAction)buttonDoubleTap:(UILongPressGestureRecognizer *)sender
+- (IBAction)buttonDoubleTap:(UITapGestureRecognizer *)sender
 {
     if ([sender.view isKindOfClass:[UIButton class]]) {
         
