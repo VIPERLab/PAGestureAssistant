@@ -648,9 +648,13 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
         [self pa_timerStart];
         return;
     }
-    else if (![self.viewController isEqual:self.viewController.navigationController.topViewController]) {
+    
+    if (self.viewController.navigationController) {
         
-        [self pa_dismiss];
+        if (![self.viewController isEqual:self.viewController.navigationController.topViewController]) {
+        
+            [self pa_dismiss];
+        }
     }
     
     //NSLog(@"[%@] commiting animation", NSStringFromClass([self class]));
