@@ -428,7 +428,7 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
     CGFloat screenWidth      = self.window.width;
     CGFloat screenHeight     = self.window.height;
     CGFloat screenTopMargin  = MAX (30, self.viewController.navigationController.navigationBar.bottom);
-    CGFloat horizontalCenter = screenWidth/2;
+    CGFloat horizontalCenter = screenWidth/2.f;
     
     switch (self.mode) {
             
@@ -446,14 +446,14 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
             
         case PAGestureAssistantOptionSwipeLeft:
             viewCount = 1;
-            start = @[NSStringFromCGPoint(CGPointMake(screenWidth * 0.8, round(screenHeight/2)))];
-            stop  = @[NSStringFromCGPoint(CGPointMake(screenWidth * 0.2, round(screenHeight/2)))];
+            start = @[NSStringFromCGPoint(CGPointMake(screenWidth * 0.8, round(screenHeight/2.f)))];
+            stop  = @[NSStringFromCGPoint(CGPointMake(screenWidth * 0.2, round(screenHeight/2.f)))];
             break;
             
         case PAGestureAssistantOptionSwipeRight:
             viewCount = 1;
-            start = @[NSStringFromCGPoint(CGPointMake(screenWidth * 0.2, round(screenHeight/2)))];
-            stop  = @[NSStringFromCGPoint(CGPointMake(screenWidth * 0.8, round(screenHeight/2)))];
+            start = @[NSStringFromCGPoint(CGPointMake(screenWidth * 0.2, round(screenHeight/2.f)))];
+            stop  = @[NSStringFromCGPoint(CGPointMake(screenWidth * 0.8, round(screenHeight/2.f)))];
             break;
             
         case PAGestureAssistantOptionCustomSwipe:
@@ -533,7 +533,7 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
     }
     
     self.descriptionLabel.alpha = 0;
-    self.descriptionLabel.frame = CGRectMake(round((screenWidth - labelWidth)/2),
+    self.descriptionLabel.frame = CGRectMake(round((screenWidth - labelWidth)/2.f),
                                              round(labelY),
                                              round(labelWidth),
                                              round(labelHeight));
@@ -779,8 +779,8 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
 - (void)pa_animateDoubleTapGesture:(NSTimeInterval)delay
 {
     
-    NSTimeInterval tapDnDuration = kPAGestureAssistantDefaultViewPulseDuration/3;
-    NSTimeInterval tapUpDuration = kPAGestureAssistantDefaultViewPulseDuration/2;
+    NSTimeInterval tapDnDuration = kPAGestureAssistantDefaultViewPulseDuration/3.f;
+    NSTimeInterval tapUpDuration = kPAGestureAssistantDefaultViewPulseDuration/2.f;
     
     // fade in gesture views
     [UIView animateWithDuration:kPAGestureAssistantDefaultViewPulseDuration*2 delay:delay options:[self pa_defaultAnimationOptions] animations:^{
@@ -888,7 +888,7 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
         } completion:^(BOOL finished) {
             
             // fade out gesture views
-            [UIView animateWithDuration:kPAGestureAssistantDefaultViewPulseDuration/2 delay:0 options:[self pa_defaultAnimationOptions] animations:^{
+            [UIView animateWithDuration:kPAGestureAssistantDefaultViewPulseDuration/2.f delay:0 options:[self pa_defaultAnimationOptions] animations:^{
                 
                 for (PAGestureView *view in self.views) {
                     
@@ -999,7 +999,7 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
     [self.window.layer removeAllAnimations];
     
     // fade out views
-    [UIView animateWithDuration:kPAGestureAssistantDefaultViewPulseDuration/3
+    [UIView animateWithDuration:kPAGestureAssistantDefaultViewPulseDuration/3.f
                           delay:0
                         options:[self pa_defaultAnimationOptions]
                      animations:^{
