@@ -188,6 +188,12 @@
     self.sliderLabel.text = [NSString stringWithFormat:@"%d second delay", (int)self.delay];
 }
 
+- (IBAction)stop:(id)sender {
+    
+    NSLog(@"stopping...");
+    [self stopGestureAssistant];
+}
+
 - (IBAction)buttonTap:(UIButton *)sender
 {
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Yo" message:sender.titleLabel.text preferredStyle:UIAlertControllerStyleAlert];

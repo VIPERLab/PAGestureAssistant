@@ -55,21 +55,10 @@
                                         </connections>
                                     </slider>
                                     <label opaque="NO" userInteractionEnabled="NO" alpha="0.33000000000000002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="249" text="Pro tip: try rotating your phone!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Nr-hO-fBS">
-                                        <rect key="frame" x="199" y="396" width="203" height="17"/>
+                                        <rect key="frame" x="199" y="448" width="203" height="17"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="lx6-Oq-MEF">
-                                        <rect key="frame" x="90" y="216" width="420" height="29"/>
-                                        <segments>
-                                            <segment title="Light"/>
-                                            <segment title="Dark"/>
-                                            <segment title="Color"/>
-                                        </segments>
-                                        <connections>
-                                            <action selector="changeTheme:" destination="BYZ-38-t0r" eventType="valueChanged" id="I3g-9Q-suz"/>
-                                        </connections>
-                                    </segmentedControl>
                                     <label opaque="NO" userInteractionEnabled="NO" alpha="0.33000000000000002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BD5-cW-OmZ">
                                         <rect key="frame" x="282" y="302" width="36" height="17"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
@@ -93,9 +82,28 @@
                                             <outletCollection property="gestureRecognizers" destination="EwK-kS-Qs9" appends="YES" id="mgK-Jx-ZTt"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lmn-1A-VbJ">
+                                        <rect key="frame" x="248" y="396" width="105" height="32"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                        <state key="normal" title="Stop Assistant"/>
+                                        <connections>
+                                            <action selector="stop:" destination="BYZ-38-t0r" eventType="touchUpInside" id="dDj-kd-mKo"/>
+                                        </connections>
+                                    </button>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="lx6-Oq-MEF">
+                                        <rect key="frame" x="90" y="216" width="420" height="29"/>
+                                        <segments>
+                                            <segment title="Light"/>
+                                            <segment title="Dark"/>
+                                            <segment title="Color"/>
+                                        </segments>
+                                        <connections>
+                                            <action selector="changeTheme:" destination="BYZ-38-t0r" eventType="valueChanged" id="I3g-9Q-suz"/>
+                                        </connections>
+                                    </segmentedControl>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="8Nr-hO-fBS" firstAttribute="top" secondItem="367-ak-Ezg" secondAttribute="bottom" constant="20" id="6Bp-1d-omK"/>
+                                    <constraint firstItem="Lmn-1A-VbJ" firstAttribute="centerX" secondItem="3Sy-x8-Vbc" secondAttribute="centerX" id="1Xg-aA-8zW"/>
                                     <constraint firstItem="lx6-Oq-MEF" firstAttribute="width" secondItem="3Sy-x8-Vbc" secondAttribute="width" multiplier="0.7" id="9aV-pd-pns"/>
                                     <constraint firstAttribute="trailing" secondItem="lx6-Oq-MEF" secondAttribute="trailing" priority="249" constant="20" id="FgE-6E-iOY"/>
                                     <constraint firstItem="lx6-Oq-MEF" firstAttribute="top" secondItem="az6-W7-Mku" secondAttribute="bottom" constant="40" id="GUb-VT-UII"/>
@@ -106,12 +114,14 @@
                                     <constraint firstAttribute="bottom" secondItem="8Nr-hO-fBS" secondAttribute="bottom" constant="92" id="V9x-HO-xnI"/>
                                     <constraint firstItem="az6-W7-Mku" firstAttribute="centerX" secondItem="3Sy-x8-Vbc" secondAttribute="centerX" id="VDa-W8-irc"/>
                                     <constraint firstItem="fpb-93-2vH" firstAttribute="centerX" secondItem="3Sy-x8-Vbc" secondAttribute="centerX" id="VdE-aB-DRe"/>
+                                    <constraint firstItem="8Nr-hO-fBS" firstAttribute="top" secondItem="Lmn-1A-VbJ" secondAttribute="bottom" constant="20" id="akm-TQ-Ctq"/>
                                     <constraint firstItem="367-ak-Ezg" firstAttribute="top" secondItem="BD5-cW-OmZ" secondAttribute="bottom" constant="25" id="boq-TO-g8X"/>
                                     <constraint firstItem="8Nr-hO-fBS" firstAttribute="centerX" secondItem="3Sy-x8-Vbc" secondAttribute="centerX" id="bvT-fc-2x1"/>
                                     <constraint firstItem="367-ak-Ezg" firstAttribute="centerX" secondItem="3Sy-x8-Vbc" secondAttribute="centerX" id="cJj-Y0-X3G"/>
                                     <constraint firstItem="fpb-93-2vH" firstAttribute="top" secondItem="MyD-4P-G1y" secondAttribute="bottom" constant="25" id="ezI-aw-Aek"/>
                                     <constraint firstItem="dZN-PB-ogh" firstAttribute="top" secondItem="lx6-Oq-MEF" secondAttribute="bottom" constant="20" id="f1i-Po-llz"/>
                                     <constraint firstItem="dZN-PB-ogh" firstAttribute="centerX" secondItem="3Sy-x8-Vbc" secondAttribute="centerX" id="kvT-Mo-7nq"/>
+                                    <constraint firstItem="Lmn-1A-VbJ" firstAttribute="top" secondItem="367-ak-Ezg" secondAttribute="bottom" constant="20" id="n1C-Fy-2Td"/>
                                     <constraint firstItem="BD5-cW-OmZ" firstAttribute="centerX" secondItem="3Sy-x8-Vbc" secondAttribute="centerX" id="ssi-V3-lDx"/>
                                     <constraint firstItem="MyD-4P-G1y" firstAttribute="top" secondItem="3Sy-x8-Vbc" secondAttribute="top" constant="30" id="wsd-Aj-OYS"/>
                                     <constraint firstItem="MyD-4P-G1y" firstAttribute="centerX" secondItem="3Sy-x8-Vbc" secondAttribute="centerX" id="ydX-p2-oix"/>
