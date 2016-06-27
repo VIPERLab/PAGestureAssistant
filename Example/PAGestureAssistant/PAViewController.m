@@ -190,7 +190,6 @@
 
 - (IBAction)stop:(id)sender {
     
-    NSLog(@"stopping...");
     [self stopGestureAssistant];
 }
 

@@ -30,7 +30,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="az6-W7-Mku">
-                                        <rect key="frame" x="230" y="144" width="140" height="32"/>
+                                        <rect key="frame" x="230" y="134" width="140" height="32"/>
                                         <gestureRecognizers/>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <state key="normal" title="Some Other Button"/>
@@ -40,7 +40,7 @@
                                         </connections>
                                     </button>
                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="3" minValue="1" maxValue="10" translatesAutoresizingMaskIntoConstraints="NO" id="dZN-PB-ogh">
-                                        <rect key="frame" x="88" y="264" width="424" height="31"/>
+                                        <rect key="frame" x="88" y="244" width="424" height="31"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="114" id="Nyo-87-hfe"/>
                                         </constraints>
@@ -54,18 +54,18 @@
                                             <action selector="changeDelay:" destination="BYZ-38-t0r" eventType="valueChanged" id="HdK-Lh-8zv"/>
                                         </connections>
                                     </slider>
-                                    <label opaque="NO" userInteractionEnabled="NO" alpha="0.33000000000000002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="249" text="Pro tip: try rotating your phone!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Nr-hO-fBS">
-                                        <rect key="frame" x="199" y="448" width="203" height="17"/>
-                                        <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" alpha="0.25" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="249" text="Pro tip: try rotating your phone!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Nr-hO-fBS">
+                                        <rect key="frame" x="211" y="448" width="178" height="15"/>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" alpha="0.33000000000000002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BD5-cW-OmZ">
-                                        <rect key="frame" x="282" y="302" width="36" height="17"/>
+                                        <rect key="frame" x="282" y="282" width="36" height="17"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="367-ak-Ezg">
-                                        <rect key="frame" x="250" y="344" width="101" height="32"/>
+                                        <rect key="frame" x="250" y="324" width="101" height="32"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <state key="normal" title="Show Options"/>
                                         <connections>
@@ -73,7 +73,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fpb-93-2vH">
-                                        <rect key="frame" x="245" y="87" width="111" height="32"/>
+                                        <rect key="frame" x="245" y="82" width="111" height="32"/>
                                         <gestureRecognizers/>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <state key="normal" title="Another Button"/>
@@ -83,7 +83,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lmn-1A-VbJ">
-                                        <rect key="frame" x="248" y="396" width="105" height="32"/>
+                                        <rect key="frame" x="248" y="376" width="105" height="32"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <state key="normal" title="Stop Assistant"/>
                                         <connections>
@@ -91,7 +91,7 @@
                                         </connections>
                                     </button>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="lx6-Oq-MEF">
-                                        <rect key="frame" x="90" y="216" width="420" height="29"/>
+                                        <rect key="frame" x="90" y="196" width="420" height="29"/>
                                         <segments>
                                             <segment title="Light"/>
                                             <segment title="Dark"/>
@@ -106,19 +106,19 @@
                                     <constraint firstItem="Lmn-1A-VbJ" firstAttribute="centerX" secondItem="3Sy-x8-Vbc" secondAttribute="centerX" id="1Xg-aA-8zW"/>
                                     <constraint firstItem="lx6-Oq-MEF" firstAttribute="width" secondItem="3Sy-x8-Vbc" secondAttribute="width" multiplier="0.7" id="9aV-pd-pns"/>
                                     <constraint firstAttribute="trailing" secondItem="lx6-Oq-MEF" secondAttribute="trailing" priority="249" constant="20" id="FgE-6E-iOY"/>
-                                    <constraint firstItem="lx6-Oq-MEF" firstAttribute="top" secondItem="az6-W7-Mku" secondAttribute="bottom" constant="40" id="GUb-VT-UII"/>
+                                    <constraint firstItem="lx6-Oq-MEF" firstAttribute="top" secondItem="az6-W7-Mku" secondAttribute="bottom" constant="30" id="GUb-VT-UII"/>
                                     <constraint firstItem="dZN-PB-ogh" firstAttribute="width" secondItem="lx6-Oq-MEF" secondAttribute="width" id="Njc-Hc-K4p"/>
-                                    <constraint firstItem="az6-W7-Mku" firstAttribute="top" secondItem="fpb-93-2vH" secondAttribute="bottom" constant="25" id="PxP-3y-XVL"/>
+                                    <constraint firstItem="az6-W7-Mku" firstAttribute="top" secondItem="fpb-93-2vH" secondAttribute="bottom" constant="20" id="PxP-3y-XVL"/>
                                     <constraint firstItem="lx6-Oq-MEF" firstAttribute="centerX" secondItem="3Sy-x8-Vbc" secondAttribute="centerX" id="Qt3-7G-OCK"/>
                                     <constraint firstItem="BD5-cW-OmZ" firstAttribute="top" secondItem="dZN-PB-ogh" secondAttribute="bottom" constant="8" id="Usn-C7-bqh"/>
                                     <constraint firstAttribute="bottom" secondItem="8Nr-hO-fBS" secondAttribute="bottom" constant="92" id="V9x-HO-xnI"/>
                                     <constraint firstItem="az6-W7-Mku" firstAttribute="centerX" secondItem="3Sy-x8-Vbc" secondAttribute="centerX" id="VDa-W8-irc"/>
                                     <constraint firstItem="fpb-93-2vH" firstAttribute="centerX" secondItem="3Sy-x8-Vbc" secondAttribute="centerX" id="VdE-aB-DRe"/>
-                                    <constraint firstItem="8Nr-hO-fBS" firstAttribute="top" secondItem="Lmn-1A-VbJ" secondAttribute="bottom" constant="20" id="akm-TQ-Ctq"/>
+                                    <constraint firstItem="8Nr-hO-fBS" firstAttribute="top" secondItem="Lmn-1A-VbJ" secondAttribute="bottom" constant="40" id="akm-TQ-Ctq"/>
                                     <constraint firstItem="367-ak-Ezg" firstAttribute="top" secondItem="BD5-cW-OmZ" secondAttribute="bottom" constant="25" id="boq-TO-g8X"/>
                                     <constraint firstItem="8Nr-hO-fBS" firstAttribute="centerX" secondItem="3Sy-x8-Vbc" secondAttribute="centerX" id="bvT-fc-2x1"/>
                                     <constraint firstItem="367-ak-Ezg" firstAttribute="centerX" secondItem="3Sy-x8-Vbc" secondAttribute="centerX" id="cJj-Y0-X3G"/>
-                                    <constraint firstItem="fpb-93-2vH" firstAttribute="top" secondItem="MyD-4P-G1y" secondAttribute="bottom" constant="25" id="ezI-aw-Aek"/>
+                                    <constraint firstItem="fpb-93-2vH" firstAttribute="top" secondItem="MyD-4P-G1y" secondAttribute="bottom" constant="20" id="ezI-aw-Aek"/>
                                     <constraint firstItem="dZN-PB-ogh" firstAttribute="top" secondItem="lx6-Oq-MEF" secondAttribute="bottom" constant="20" id="f1i-Po-llz"/>
                                     <constraint firstItem="dZN-PB-ogh" firstAttribute="centerX" secondItem="3Sy-x8-Vbc" secondAttribute="centerX" id="kvT-Mo-7nq"/>
                                     <constraint firstItem="Lmn-1A-VbJ" firstAttribute="top" secondItem="367-ak-Ezg" secondAttribute="bottom" constant="20" id="n1C-Fy-2Td"/>
