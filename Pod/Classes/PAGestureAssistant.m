@@ -111,8 +111,7 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
 {
     // just to be safe, shouldn't have to
     if (self.gestureAssistant) {
-        
-        [self.gestureAssistant pa_dismiss];
+        [self.gestureAssistant pa_stop:nil];
     }
     
     [self pa_viewWillDisappear:animated];
@@ -480,6 +479,7 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
             
         case PAGestureAssistantOptionUndefined:
             PALog(@"This shouldn't happen ever. Can't have undefined type!");
+            [self pa_stop:nil];
             return;
     }
     
@@ -562,41 +562,38 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
     
     self.lastTouchInterval = event.allTouches.allObjects.firstObject.timestamp;
     
-    PALog(@"User touch.");
-    
     if (self.state < PAGestureAssistantStateShowing) {
         
         if (self.completion) {
-            PALog(@"Ignoring while instruction is presented.");
+            PALog(@"Ignoring touch while instruction is presented.");
             return;
         }
     }
     
-    if (self.completion != nil) {
+    if (self.completion) {
         
         PALog(@"Calling completion block");
-        [self pa_dismiss:^(BOOL finished) {
+        [self pa_stop:^(BOOL finished) {
             
             dispatch_async(dispatch_get_main_queue(),^{
-                if (self.completion) {
-                    
-                    PAGestureCompletion block = self.completion;
-                    self.completion = nil;
-                    block(YES);
-                }
+                PAGestureCompletion block = self.completion;
+                self.completion = nil;
+                block(finished);
+            
             });
             
         }];
     }
-    else if (self.idleTimerDelay > 0) {
+    else if (self.mode != PAGestureAssistantOptionUndefined) {
         
+        PALog(@"User touch.");
         [self pa_dismissThenResume];
     }
     
     else {
-        
-        [self pa_dismiss];
+        PALog(@"Ignoring touch.");
     }
+    
 }
 
 - (BOOL)pa_allowContentTouches
@@ -985,17 +982,7 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
 
 - (void)pa_dismiss:(nullable PAGestureCompletion)completion
 {
-
-    if (self.state < PAGestureAssistantStateFading) {
-        
-        if (completion) {
-            completion(YES);
-        }
-        
-        return;
-    }
-    
-    PALog(@"Dismissing...");
+    //PALog(@"Dismissing...");
     
     // invalidate timer
     [self.idleTimer invalidate];
@@ -1005,16 +992,12 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
     [self.window.layer removeAllAnimations];
     
     // fade out views
-    [UIView animateWithDuration:kPAGestureAssistantDefaultViewPulseDuration/3.f
-                          delay:0
-                        options:[self pa_defaultAnimationOptions]
-                     animations:^{
+    [UIView animateWithDuration:kPAGestureAssistantDefaultViewPulseDuration/3.f delay:0 options:[self pa_defaultAnimationOptions] animations:^{
         
         self.descriptionLabel.alpha = 0;
         self.backgroundView.backgroundColor = [UIColor clearColor];
         
         for (PAGestureView *view in self.views) {
-            
             view.alpha = 0;
         }
         
@@ -1026,7 +1009,6 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
         }
         
         for (PAGestureView *view in self.views) {
-            
             [view pulse:NO];
             [view.layer removeAllAnimations];
             [view removeFromSuperview];
@@ -1051,7 +1033,14 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
 - (void)pa_stop:(nullable PAGestureCompletion)completion
 {
     self.state = PAGestureAssistantStateStopped;
-    [self pa_dismiss:nil];
+    [self pa_dismiss:^(BOOL finished) {
+        
+        [self.backgroundView removeFromSuperview];
+        
+        if (completion) {
+            completion(finished);
+        }
+    }];
 }
 
 - (void)pa_dismiss
