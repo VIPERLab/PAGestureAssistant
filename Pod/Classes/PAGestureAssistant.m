@@ -374,8 +374,7 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
 @property (copy)              PAGestureCompletion       completion;
 
 @property (assign, nonatomic) BOOL                      isAnimating;
-@property (assign, nonatomic) BOOL                      isFadingOut;
-@property (assign, nonatomic) BOOL                      isFadingIn;
+@property (assign, nonatomic) BOOL                      isFading;
 
 @end
 
@@ -554,7 +553,7 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
     
     self.lastTouchInterval = event.allTouches.allObjects.firstObject.timestamp;
     
-    if (self.isFadingOut || self.isFadingIn || [self.backgroundView.backgroundColor isEqual:[UIColor clearColor]]) {
+    if (self.isFading || [self.backgroundView.backgroundColor isEqual:[UIColor clearColor]]) {
         
         if (self.completion) {
             return;
@@ -563,7 +562,7 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
     
     if (self.completion != nil) {
         
-        self.isFadingOut = YES;
+        self.isFading = YES;
         //NSLog(@"[%@] user touch. completing task...", NSStringFromClass([self class]));
         [self pa_dismiss:^(BOOL finished) {
             
@@ -575,7 +574,7 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
                     block(YES);
                 }
                 
-                self.isFadingOut = NO;
+                self.isFading = NO;
             });
         }];
     }
@@ -669,7 +668,7 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
         [self.window addSubview:view];
     }
     
-    self.isFadingIn = YES;
+    self.isFading = YES;
     
     self.isAnimating = NO;
     [self.window.layer removeAllAnimations];
@@ -712,7 +711,7 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
                         
                      } completion:^(BOOL finished) {
                          
-                         self.isFadingIn = NO;
+                         self.isFading = NO;
                          
                          self.viewController.view.tintAdjustmentMode = UIViewTintAdjustmentModeDimmed;
                          self.viewController.navigationController.view.tintAdjustmentMode = UIViewTintAdjustmentModeDimmed;
@@ -974,7 +973,7 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
 
     //NSLog(@"[%@] dismiss begin...", NSStringFromClass([self class]));
     
-    self.isFadingOut = YES;
+    self.isFading = YES;
     
     // set animating state off
     self.isAnimating = NO;
@@ -1018,7 +1017,7 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
         self.viewController.view.tintAdjustmentMode                      = UIViewTintAdjustmentModeAutomatic;
         self.viewController.navigationController.view.tintAdjustmentMode = UIViewTintAdjustmentModeAutomatic;
         
-        self.isFadingOut = NO;
+        self.isFading = NO;
         
         [self.descriptionLabel removeFromSuperview];
         
