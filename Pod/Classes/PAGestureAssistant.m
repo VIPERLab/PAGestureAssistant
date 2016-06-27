@@ -528,6 +528,7 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
     CGFloat labelHeight = MAX(60, textSize.height + 6); // adding a bit of leeway
     
     // position label
+    
     // CGFloat spaceAbove = CGRectGetMinY(animationRect) - labelMargin;
     CGFloat spaceBelow = screenHeight - CGRectGetMaxY(animationRect) - kPAGestureAssistantDefaultViewSize - labelMargin;
     
@@ -546,7 +547,9 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
                                              round(labelWidth),
                                              round(labelHeight));
     
-    // add subviews
+    self.descriptionLabel.transform = CGAffineTransformMakeTranslation(0, labelY/screenHeight > 0.5 ? 4 : -4);
+    
+    // add to window
     [self.window addSubview:self.descriptionLabel];
     
 }
@@ -703,7 +706,7 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
     }
     
     // fade in background
-    [UIView animateWithDuration:kPAGestureAssistantDefaultViewPulseDuration*2
+    [UIView animateWithDuration:kPAGestureAssistantDefaultViewPulseDuration*1.5f
                           delay:delay
                         options:[self pa_defaultAnimationOptions]
                      animations:^{
@@ -719,7 +722,10 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
                          
                          // fade in text
                          [UIView animateWithDuration:kPAGestureAssistantDefaultViewPulseDuration*2 animations:^{
+                             
                              self.descriptionLabel.alpha = 1;
+                             self.descriptionLabel.transform = CGAffineTransformIdentity;
+                             
                          }];
                          
                      }];
@@ -737,7 +743,7 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
         
         for (PAGestureView *view in views) {
             
-            view.alpha = 1;
+            view.alpha = kPAGestureAssistantDefaultGestureAlphaUp;
             view.transform = CGAffineTransformMakeScale(1.2f, 1.2f);
         }
         
@@ -749,7 +755,7 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
             for (PAGestureView *view in views) {
                 
                 view.transform = CGAffineTransformMakeScale(1, 1);
-                view.alpha = 0.75f;
+                view.alpha = kPAGestureAssistantDefaultGestureAlphaDn;
             }
             
         } completion:^(BOOL finished) {
@@ -760,7 +766,7 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
                 for (PAGestureView *view in views) {
                     
                     view.transform = CGAffineTransformMakeScale(1.2, 1.2);
-                    view.alpha     = 1.f;
+                    view.alpha     = kPAGestureAssistantDefaultGestureAlphaUp;
                 }
                 
             } completion:^(BOOL finished) {
@@ -777,7 +783,6 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
 
 - (void)pa_animateDoubleTapGesture:(NSTimeInterval)delay
 {
-    
     NSTimeInterval tapDnDuration = kPAGestureAssistantDefaultViewPulseDuration/3.f;
     NSTimeInterval tapUpDuration = kPAGestureAssistantDefaultViewPulseDuration/2.f;
     
@@ -788,7 +793,7 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
         
         for (PAGestureView *view in views) {
             
-            view.alpha = 1;
+            view.alpha = kPAGestureAssistantDefaultGestureAlphaUp;
             view.transform = CGAffineTransformMakeScale(1.2f, 1.2f);
         }
         
@@ -800,7 +805,7 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
             for (PAGestureView *view in views) {
                 
                 view.transform = CGAffineTransformMakeScale(1, 1);
-                view.alpha = 0.75f;
+                view.alpha = kPAGestureAssistantDefaultGestureAlphaDn;
             }
             
         } completion:^(BOOL finished) {
@@ -811,7 +816,7 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
                 for (PAGestureView *view in views) {
                     
                     view.transform = CGAffineTransformMakeScale(1.2, 1.2);
-                    view.alpha     = 1.f;
+                    view.alpha     = kPAGestureAssistantDefaultGestureAlphaUp;
                 }
                 
             } completion:^(BOOL finished) {
@@ -822,7 +827,7 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
                     for (PAGestureView *view in views) {
                         
                         view.transform = CGAffineTransformMakeScale(1, 1);
-                        view.alpha = 0.75f;
+                        view.alpha = kPAGestureAssistantDefaultGestureAlphaDn;
                     }
                     
                 } completion:^(BOOL finished) {
@@ -833,7 +838,7 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
                         for (PAGestureView *view in views) {
                             
                             view.transform = CGAffineTransformMakeScale(1.2, 1.2);
-                            view.alpha     = 1;
+                            view.alpha     = kPAGestureAssistantDefaultGestureAlphaUp;
                         }
                         
                     } completion:^(BOOL finished) {

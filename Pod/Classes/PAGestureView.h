@@ -10,6 +10,8 @@
 
 #define kPAGestureAssistantDefaultViewSize           44.f
 #define kPAGestureAssistantDefaultViewPulseDuration  0.4f
+#define kPAGestureAssistantDefaultGestureAlphaDn     0.6f
+#define kPAGestureAssistantDefaultGestureAlphaUp     0.8f
 
 @interface PAGestureView : UIImageView
 
