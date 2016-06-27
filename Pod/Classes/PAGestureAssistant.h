@@ -44,6 +44,16 @@ typedef enum : NSUInteger {
     PAGestureAssistantOptionCustomSwipe,
 } PAGestureAssistantOptions;
 
+
+typedef enum : NSUInteger {
+    PAGestureAssistantStateStopped,
+    PAGestureAssistantStateDismissed,
+    PAGestureAssistantStateScheduled,
+    PAGestureAssistantStateFading,
+    PAGestureAssistantStateShowing,
+} PAGestureAssistantState;
+
+
 typedef void(^PAGestureCompletion)(BOOL finished);
 
 #pragma mark - Appearance
@@ -69,7 +79,7 @@ NS_ASSUME_NONNULL_END
 
 @interface PAGestureAssistant : NSObject <PAGestureDelegate>
 
-@property (nonatomic, readonly)         BOOL                        isAnimating;
+@property (nonatomic, readonly)         PAGestureAssistantState     state;
 @property (nonatomic, readonly)         PAGestureAssistantOptions   mode;
 @property (nonatomic, weak, nullable)   UIView                      *targetView;
 
@@ -98,6 +108,11 @@ NS_ASSUME_NONNULL_END
  @discussion Do not call directly!
  */
 - (void)pa_dismiss:(nullable PAGestureCompletion)completion;
+/**
+ Private method. Stops the animation and kills the timer with completion block.
+ @discussion Do not call directly!
+ */
+- (void)pa_stop:(nullable PAGestureCompletion)completion;
 
 @end
 

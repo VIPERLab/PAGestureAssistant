@@ -14,6 +14,12 @@
 #import <objc/runtime.h>
 #import <FrameAccessor/FrameAccessor.h>
 
+#ifdef DEBUG
+#   define PALog(fmt, ...) NSLog((@"[GestureAssistant] " fmt), ##__VA_ARGS__);
+#else
+#   define PALog(...)
+#endif
+
 #define kPAGestureAssistantDefaultGestureViewColor  [UIColor whiteColor]
 #define kPAGestureAssistantDefaultBackgroundColor   [UIColor colorWithWhite:0.2f alpha:0.8f]
 #define kPAGestureAssistantDefaultFontSize          19
@@ -39,7 +45,7 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
         NSArray *selectors = @[NSStringFromSelector(@selector(viewWillAppear:)),
                                NSStringFromSelector(@selector(viewDidAppear:)),
                                NSStringFromSelector(@selector(viewWillDisappear:)),
-                               NSStringFromSelector(@selector(willTransitionToTraitCollection:withTransitionCoordinator:))];
+                               NSStringFromSelector(@selector(viewWillTransitionToSize:withTransitionCoordinator:))];
         
         for (int i = 0; i < selectors.count; i++) {
             
@@ -106,7 +112,6 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
     // just to be safe, shouldn't have to
     if (self.gestureAssistant) {
         
-        //NSLog(@"[%@] view will disappear", NSStringFromClass([self class]));
         [self.gestureAssistant pa_dismiss];
     }
     
@@ -114,14 +119,13 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
     
 }
 
-- (void)pa_willTransitionToTraitCollection:(UITraitCollection *)newCollection withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
+- (void)pa_viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id <UIViewControllerTransitionCoordinator>)coordinator
 {
-    
-    [self pa_willTransitionToTraitCollection:newCollection withTransitionCoordinator:coordinator];
+    [self pa_viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
     
     if (self.gestureAssistant && self.gestureAssistant.mode != PAGestureAssistantOptionUndefined) {
         
-        //NSLog(@"[%@] screen rotated. resetting timer...", NSStringFromClass([self class]));
+        PALog(@"View size changed.");
         [self.gestureAssistant pa_dismissThenResume];
     }
 }
@@ -130,12 +134,12 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
 
 - (void)stopGestureAssistant
 {
-    [self.gestureAssistant pa_dismiss];
+    [self.gestureAssistant pa_stop:nil];
 }
 
 - (void)stopGestureAssistantWithCompletion:(nonnull PAGestureCompletion)completion
 {
-    [self.gestureAssistant pa_dismiss:completion];
+    [self.gestureAssistant pa_stop:completion];
 }
 
 #pragma mark - Show -
@@ -370,11 +374,9 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
 @property (assign, nonatomic) NSTimeInterval            lastTouchInterval;
 @property (assign, nonatomic) dispatch_once_t           setupOnceToken;
 @property (assign, nonatomic) PAGestureAssistantOptions mode;
+@property (assign, nonatomic) PAGestureAssistantState   state;
 @property (assign, nonatomic) NSTimeInterval            idleTimerDelay;
 @property (copy)              PAGestureCompletion       completion;
-
-@property (assign, nonatomic) BOOL                      isAnimating;
-@property (assign, nonatomic) BOOL                      isFading;
 
 @end
 
@@ -394,17 +396,24 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
 - (void)pa_setup
 {
     self.idleTimerDelay                 = 10;
+    
+    // array that contains the gesture views
     self.views                          = [NSArray array];
+    // starting postitions for each gesture views
     self.startPositions                 = [NSArray array];
+    // end positions
     self.endPositions                   = [NSArray array];
     
-    self.backgroundView                 = [[PAGestureBackgroundView alloc] initWithDelegate:self];
-    
+    // description label
     self.descriptionLabel               = [[UILabel alloc] init];
     self.descriptionLabel.font          = [UIFont systemFontOfSize:18];
     self.descriptionLabel.textAlignment = NSTextAlignmentCenter;
     self.descriptionLabel.numberOfLines = 0;
     self.descriptionLabel.alpha         = 0;
+    
+    // set background
+    self.backgroundView                 = [[PAGestureBackgroundView alloc] initWithDelegate:self];
+    self.backgroundView.backgroundColor = [UIColor clearColor];
     
     // debug
     // self.descriptionLabel.backgroundColor = [UIColor yellowColor];
@@ -470,7 +479,7 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
             break;
             
         case PAGestureAssistantOptionUndefined:
-            //NSLog(@"[%@] Can't have undefined type!", NSStringFromClass([self class]));
+            PALog(@"This shouldn't happen ever. Can't have undefined type!");
             return;
     }
     
@@ -553,17 +562,19 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
     
     self.lastTouchInterval = event.allTouches.allObjects.firstObject.timestamp;
     
-    if (self.isFading || [self.backgroundView.backgroundColor isEqual:[UIColor clearColor]]) {
+    PALog(@"User touch.");
+    
+    if (self.state < PAGestureAssistantStateShowing) {
         
         if (self.completion) {
+            PALog(@"Ignoring while instruction is presented.");
             return;
         }
     }
     
     if (self.completion != nil) {
         
-        self.isFading = YES;
-        //NSLog(@"[%@] user touch. completing task...", NSStringFromClass([self class]));
+        PALog(@"Calling completion block");
         [self pa_dismiss:^(BOOL finished) {
             
             dispatch_async(dispatch_get_main_queue(),^{
@@ -573,20 +584,17 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
                     self.completion = nil;
                     block(YES);
                 }
-                
-                self.isFading = NO;
             });
+            
         }];
     }
     else if (self.idleTimerDelay > 0) {
         
-        //NSLog(@"[%@] user touch. resetting timer...", NSStringFromClass([self class]));
         [self pa_dismissThenResume];
     }
     
     else {
         
-        //NSLog(@"[%@] user touch. dismissing...", NSStringFromClass([self class]));
         [self pa_dismiss];
     }
 }
@@ -604,6 +612,9 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
 
 - (void)pa_timerStart
 {
+    [self.window addSubview:self.backgroundView];
+    
+    self.state = PAGestureAssistantStateScheduled;
     
     [self.idleTimer invalidate];
     self.idleTimer = nil;
@@ -613,24 +624,19 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
                                                     selector:@selector(pa_timerTick:)
                                                     userInfo:nil
                                                      repeats:NO];
+    
 }
 
 - (void)pa_timerTick:(NSTimer *)timer
 {
-    if ([self.idleTimer isEqual:timer]) {
-        
-        // prepare subviews
-        [self pa_prepareViews];
-        
-        // animate!
-        [self pa_commitAnimationWithDelay:1];
-        
-    }
-    else {
-        
-        [timer invalidate];
-        timer = nil;
-    }
+    // prepare subviews
+    [self pa_prepareViews];
+    
+    // animate!
+    [self pa_commitAnimationWithDelay:0.1f];
+    
+    [timer invalidate];
+    timer = nil;
     
 }
 
@@ -653,8 +659,6 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
         }
     }
     
-    //NSLog(@"[%@] commiting animation", NSStringFromClass([self class]));
-    
     // kill timer
     [self.idleTimer invalidate];
     self.idleTimer = nil;
@@ -668,11 +672,11 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
         [self.window addSubview:view];
     }
     
-    self.isFading = YES;
-    
-    self.isAnimating = NO;
     [self.window.layer removeAllAnimations];
-    self.isAnimating = YES;
+    
+    if (self.state < PAGestureAssistantStateFading) {
+        self.state = PAGestureAssistantStateFading;
+    }
     
     switch (self.mode){
             
@@ -697,7 +701,7 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
             break;
             
         case PAGestureAssistantOptionUndefined:
-            //NSLog(@"[%@] can't animate undefined state", NSStringFromClass([self class]));
+            PALog(@"Can't animate undefined state");
             return;
     }
     
@@ -711,7 +715,7 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
                         
                      } completion:^(BOOL finished) {
                          
-                         self.isFading = NO;
+                         self.state = PAGestureAssistantStateShowing;
                          
                          self.viewController.view.tintAdjustmentMode = UIViewTintAdjustmentModeDimmed;
                          self.viewController.navigationController.view.tintAdjustmentMode = UIViewTintAdjustmentModeDimmed;
@@ -729,10 +733,12 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
     NSTimeInterval tapDnDuration = kPAGestureAssistantDefaultViewPulseDuration * 0.67 * timeScale;
     NSTimeInterval tapUpDuration = kPAGestureAssistantDefaultViewPulseDuration;
     
+    NSArray *views = self.views;
+    
     // fade in gesture views
     [UIView animateWithDuration:kPAGestureAssistantDefaultViewPulseDuration*2 delay:delay options:[self pa_defaultAnimationOptions] animations:^{
         
-        for (PAGestureView *view in self.views) {
+        for (PAGestureView *view in views) {
             
             view.alpha = 1;
             view.transform = CGAffineTransformMakeScale(1.2f, 1.2f);
@@ -743,7 +749,7 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
         // first tap
         [UIView animateWithDuration:tapDnDuration delay:kPAGestureAssistantDefaultViewPulseDuration*2 options:[self pa_defaultAnimationOptions] animations:^{
             
-            for (PAGestureView *view in self.views) {
+            for (PAGestureView *view in views) {
                 
                 view.transform = CGAffineTransformMakeScale(1, 1);
                 view.alpha = 0.75f;
@@ -754,7 +760,7 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
             // animate up
             [UIView animateWithDuration:tapUpDuration delay:0 options:[self pa_defaultAnimationOptions] animations:^{
                 
-                for (PAGestureView *view in self.views) {
+                for (PAGestureView *view in views) {
                     
                     view.transform = CGAffineTransformMakeScale(1.2, 1.2);
                     view.alpha     = 1.f;
@@ -762,7 +768,7 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
                 
             } completion:^(BOOL finished) {
                 
-                if (self.isAnimating && !self.idleTimer) {
+                if (self.state == PAGestureAssistantStateShowing) {
                     
                     [self pa_commitAnimationWithDelay:0];
                 }
@@ -778,10 +784,12 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
     NSTimeInterval tapDnDuration = kPAGestureAssistantDefaultViewPulseDuration/3.f;
     NSTimeInterval tapUpDuration = kPAGestureAssistantDefaultViewPulseDuration/2.f;
     
+    NSArray *views = self.views;
+    
     // fade in gesture views
     [UIView animateWithDuration:kPAGestureAssistantDefaultViewPulseDuration*2 delay:delay options:[self pa_defaultAnimationOptions] animations:^{
         
-        for (PAGestureView *view in self.views) {
+        for (PAGestureView *view in views) {
             
             view.alpha = 1;
             view.transform = CGAffineTransformMakeScale(1.2f, 1.2f);
@@ -792,7 +800,7 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
         // first tap
         [UIView animateWithDuration:tapDnDuration delay:kPAGestureAssistantDefaultViewPulseDuration*2 options:[self pa_defaultAnimationOptions] animations:^{
             
-            for (PAGestureView *view in self.views) {
+            for (PAGestureView *view in views) {
                 
                 view.transform = CGAffineTransformMakeScale(1, 1);
                 view.alpha = 0.75f;
@@ -803,7 +811,7 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
             // animate up
             [UIView animateWithDuration:tapUpDuration delay:0 options:[self pa_defaultAnimationOptions] animations:^{
                 
-                for (PAGestureView *view in self.views) {
+                for (PAGestureView *view in views) {
                     
                     view.transform = CGAffineTransformMakeScale(1.2, 1.2);
                     view.alpha     = 1.f;
@@ -814,7 +822,7 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
                 // second tap
                 [UIView animateWithDuration:tapDnDuration delay:0 options:[self pa_defaultAnimationOptions] animations:^{
                     
-                    for (PAGestureView *view in self.views) {
+                    for (PAGestureView *view in views) {
                         
                         view.transform = CGAffineTransformMakeScale(1, 1);
                         view.alpha = 0.75f;
@@ -825,7 +833,7 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
                     // animate up
                     [UIView animateWithDuration:tapUpDuration*2 delay:0 options:[self pa_defaultAnimationOptions] animations:^{
                         
-                        for (PAGestureView *view in self.views) {
+                        for (PAGestureView *view in views) {
                             
                             view.transform = CGAffineTransformMakeScale(1.2, 1.2);
                             view.alpha     = 1;
@@ -833,7 +841,7 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
                         
                     } completion:^(BOOL finished) {
                         
-                        if (self.isAnimating && !self.idleTimer) {
+                        if (self.state == PAGestureAssistantStateShowing) {
                             
                             [self pa_commitAnimationWithDelay:0];
                         }
@@ -857,10 +865,13 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
         [view pulse:YES];
     }
     
+    NSArray *views = self.views;
+    NSArray *endPositions = self.endPositions;
+    
     // fade in gesture views
     [UIView animateWithDuration:kPAGestureAssistantDefaultViewPulseDuration*2 delay:delay usingSpringWithDamping:0.6 initialSpringVelocity:0.6 options:[self pa_defaultAnimationOptions] animations:^{
         
-        for (PAGestureView *view in self.views) {
+        for (PAGestureView *view in views) {
             
             view.alpha     = 1;
             view.transform = CGAffineTransformMakeScale(1, 1);
@@ -871,22 +882,32 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
         // animate gesture views
         [UIView animateWithDuration:kPAGestureAssistantDefaultViewPulseDuration*1.5 delay:kPAGestureAssistantDefaultViewPulseDuration*3 options:[self pa_defaultAnimationOptions] animations:^{
             
-            for (int i=0; i < self.views.count; i++) {
+            [views enumerateObjectsUsingBlock:^(PAGestureView *view, NSUInteger idx, BOOL * _Nonnull stop) {
                 
-                PAGestureView *view = self.views[i];
-                CGPoint p1 = CGPointFromString(self.endPositions[i]);
-                
-                view.center = p1;
                 view.alpha  = 0.5f;
                 
-            }
+                // being paranoid
+                NSString *centerString;
+                
+                @try {
+                    centerString = endPositions[idx];
+                    
+                } @catch (NSException *exception) {
+                    PALog(@"End Point for gesture view non existant. \n%@", exception);
+                    
+                } @finally {
+                    CGPoint p1 = CGPointFromString(endPositions[idx]);
+                    view.center = p1;
+                }
+                
+            }];
             
         } completion:^(BOOL finished) {
             
             // fade out gesture views
             [UIView animateWithDuration:kPAGestureAssistantDefaultViewPulseDuration/2.f delay:0 options:[self pa_defaultAnimationOptions] animations:^{
                 
-                for (PAGestureView *view in self.views) {
+                for (PAGestureView *view in views) {
                     
                     view.alpha = 0;
                 }
@@ -894,7 +915,7 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
             } completion:^(BOOL finished) {
                 
                 // check for repeat
-                if (self.isAnimating && !self.idleTimer) {
+                if (self.state == PAGestureAssistantStateShowing) {
                     
                     [self pa_commitAnimationWithDelay:0];
                 }
@@ -909,9 +930,12 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
 
 - (void)pa_show:(PAGestureAssistantOptions)mode targetView:(nullable UIView *)targetView startPoint:(CGPoint)startPoint endPoint:(CGPoint)endPoint attributedText:(nullable NSAttributedString *)attributedText afterDelay:(NSTimeInterval)delay completion:(PAGestureCompletion)completion
 {
+    
+    PALog(@"Starting in %.1f seconds", delay);
+    
+    
     if (mode == PAGestureAssistantOptionUndefined) {
-        
-        //NSLog(@"[%@] mode can't be undefined", NSStringFromClass([self class]));
+        PALog(@"Invalid Option!");
         return;
     }
     
@@ -944,42 +968,34 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
                 break;
                 
             case PAGestureAssistantOptionUndefined:
-                //NSLog(@"[%@] can't have a undefined type", NSStringFromClass([self class]));
+                PALog(@"Invalid Option");
                 return;
         }
         
-        _mode           = mode;
-        _idleTimerDelay = MAX(0.1f, delay);
-        _targetView     = targetView;
-        _completion     = completion;
-        _descriptionLabel.attributedText = attributedText ? attributedText : [[NSAttributedString alloc] initWithString:@""];
-        
-        // set background
-        [self pa_prepareBackground];
+        self.mode           = mode;
+        self.idleTimerDelay = MAX(0.1f, delay);
+        self.targetView     = targetView;
+        self.completion     = completion;
+        self.descriptionLabel.attributedText = attributedText ? attributedText : [[NSAttributedString alloc] initWithString:@""];
         
         // start timer
         [self pa_timerStart];
     }];
 }
 
-- (void)pa_prepareBackground
-{
-    self.backgroundView.backgroundColor = [UIColor clearColor];
-    [self.window addSubview:self.backgroundView];
-}
-
 - (void)pa_dismiss:(nullable PAGestureCompletion)completion
 {
 
-    //NSLog(@"[%@] dismiss begin...", NSStringFromClass([self class]));
+    if (self.state < PAGestureAssistantStateFading) {
+        
+        if (completion) {
+            completion(YES);
+        }
+        
+        return;
+    }
     
-    self.isFading = YES;
-    
-    // set animating state off
-    self.isAnimating = NO;
-    
-    // clear target view
-    //self.targetView = nil;
+    PALog(@"Dismissing...");
     
     // invalidate timer
     [self.idleTimer invalidate];
@@ -1007,6 +1023,10 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
         // and remove from window
     } completion:^(BOOL finished) {
         
+        if (self.state > PAGestureAssistantStateDismissed) {
+            self.state = PAGestureAssistantStateDismissed;
+        }
+        
         for (PAGestureView *view in self.views) {
             
             [view pulse:NO];
@@ -1017,7 +1037,6 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
         self.viewController.view.tintAdjustmentMode                      = UIViewTintAdjustmentModeAutomatic;
         self.viewController.navigationController.view.tintAdjustmentMode = UIViewTintAdjustmentModeAutomatic;
         
-        self.isFading = NO;
         
         [self.descriptionLabel removeFromSuperview];
         
@@ -1025,8 +1044,13 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
             completion(YES);
         }
         
-        //NSLog(@"[%@] dismiss end.", NSStringFromClass([self class]));
     }];
+}
+
+- (void)pa_stop:(nullable PAGestureCompletion)completion
+{
+    self.state = PAGestureAssistantStateStopped;
+    [self pa_dismiss:nil];
 }
 
 - (void)pa_dismiss
@@ -1036,6 +1060,7 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
 
 - (void)pa_dismissThenResume
 {
+    
     PAGestureAssistantOptions mode = self.mode;
     
     [self pa_dismiss:^(BOOL finished) {
@@ -1043,14 +1068,51 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
         if (mode != PAGestureAssistantOptionUndefined)
         {
             self.mode = mode;
-            self.isAnimating = YES;
             
-            // start timer
-            [self pa_timerStart];
+            // prevent resume if stopped
+            if (self.state > PAGestureAssistantStateStopped) {
+            
+                PALog(@"Rescheduling...");
+                // start timer
+                [self pa_timerStart];
+            }
         }
     }];
 }
 
+#pragma mark - Setters
+
+
+- (void)setState:(PAGestureAssistantState)state {
+    
+    if (_state != state) {
+        
+        switch (state) {
+            case PAGestureAssistantStateFading:
+                PALog(@"Fading");
+                break;
+                
+            case PAGestureAssistantStateScheduled:
+                PALog(@"Scheduled");
+                break;
+                
+            case PAGestureAssistantStateShowing:
+                PALog(@"Showing");
+                break;
+                
+            case PAGestureAssistantStateStopped:
+                PALog(@"Stopped");
+                break;
+                
+            case PAGestureAssistantStateDismissed:
+                PALog(@"Dismissed");
+                break;
+        }
+    }
+    
+
+    _state = state;
+}
 
 #pragma mark - Getters
 
