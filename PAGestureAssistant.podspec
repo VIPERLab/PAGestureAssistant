@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "PAGestureAssistant"
-  s.version          = "0.2.9"
+  s.version          = "0.2.10"
   s.summary          = "PAGestureAssistant is a drop-in UIViewController category for showing interaction tips and tutorials to users."
 
   s.description      = <<-DESC
