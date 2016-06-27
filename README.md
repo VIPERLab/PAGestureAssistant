@@ -4,7 +4,8 @@
 [![License](https://img.shields.io/cocoapods/l/PAGestureAssistant.svg?style=flat)](http://cocoapods.org/pods/PAGestureAssistant)
 [![Platform](https://img.shields.io/cocoapods/p/PAGestureAssistant.svg?style=flat)](http://cocoapods.org/pods/PAGestureAssistant)
 
-![Screenshot 1](http://i.imgur.com/DVnwy8S.gif)
+![Possibilities](http://i.imgur.com/DVnwy8S.gif)
+![iPad multi-window](http://i.imgur.com/Onj9A7i.gif)
 
 PAGestureAssistant is a drop-in UIViewController category for showing interaction tips and tutorials to users that has predefined gestures for convenience and also the ability to define your own.
 
