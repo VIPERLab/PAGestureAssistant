@@ -358,6 +358,19 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
 
 @end
 
+#pragma mark - PAContainerView -
+
+@interface PAGestureContainerView : UIView
+@end
+
+@implementation PAGestureContainerView
+
+- (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event {
+    return NO;
+}
+
+@end
+
 #pragma mark - PAGestureAssistant -
 @interface PAGestureAssistant ()
 
@@ -367,6 +380,7 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
 @property (strong, nonatomic) NSTimer                   *idleTimer;
 @property (strong, nonatomic) UIViewController          *viewController;
 @property (strong, nonatomic) PAGestureBackgroundView   *backgroundView;
+@property (strong, nonatomic) PAGestureContainerView    *containerView;
 @property (strong, nonatomic) UILabel                   *descriptionLabel;
 @property (nonatomic, readonly) UIWindow                *window;
 
@@ -402,6 +416,8 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
     self.startPositions                 = [NSArray array];
     // end positions
     self.endPositions                   = [NSArray array];
+    
+    self.containerView                  = [PAGestureContainerView new];
     
     // description label
     self.descriptionLabel               = [[UILabel alloc] init];
@@ -550,7 +566,7 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
     self.descriptionLabel.transform = CGAffineTransformMakeTranslation(0, labelY/screenHeight > 0.5 ? 4 : -4);
     
     // add to window
-    [self.window addSubview:self.descriptionLabel];
+    [self.containerView addSubview:self.descriptionLabel];
     
 }
 
@@ -612,7 +628,16 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
 
 - (void)pa_timerStart
 {
-    [self.window addSubview:self.backgroundView];
+    for (UIView *subview in self.window.subviews) {
+        
+        if ([subview isKindOfClass:[PAGestureContainerView class]]) {
+            [subview removeFromSuperview];
+        }
+    }
+    
+    [self.containerView addSubview:self.backgroundView];
+    [self.containerView setFrame:self.window.bounds];
+    [self.window addSubview:self.containerView];
     
     self.state = PAGestureAssistantStateScheduled;
     
@@ -669,7 +694,7 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
         PAGestureView *view = self.views[i];
         CGPoint p0 = CGPointFromString(self.startPositions[i]);
         view.center = p0;
-        [self.window addSubview:view];
+        [self.containerView addSubview:view];
     }
     
     [self.window.layer removeAllAnimations];
@@ -1064,7 +1089,7 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
     self.state = PAGestureAssistantStateStopped;
     [self pa_dismiss:^(BOOL finished) {
         
-        [self.backgroundView removeFromSuperview];
+        [self.containerView removeFromSuperview];
         
         if (completion) {
             completion(finished);
