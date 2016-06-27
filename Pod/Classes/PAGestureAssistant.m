@@ -715,10 +715,12 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
                         
                      } completion:^(BOOL finished) {
                          
-                         self.state = PAGestureAssistantStateShowing;
-                         
+                         if (!finished) return;
+                             
                          self.viewController.view.tintAdjustmentMode = UIViewTintAdjustmentModeDimmed;
                          self.viewController.navigationController.view.tintAdjustmentMode = UIViewTintAdjustmentModeDimmed;
+                         
+                         self.state = PAGestureAssistantStateShowing;
                          
                          // fade in text
                          [UIView animateWithDuration:kPAGestureAssistantDefaultViewPulseDuration*2 animations:^{
@@ -749,6 +751,8 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
         
     } completion:^(BOOL finished) {
         
+        if (!finished) return;
+        
         // first tap
         [UIView animateWithDuration:tapDnDuration delay:kPAGestureAssistantDefaultViewPulseDuration*2 options:[self pa_defaultAnimationOptions] animations:^{
             
@@ -760,6 +764,8 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
             
         } completion:^(BOOL finished) {
             
+            if (!finished) return;
+            
             // animate up
             [UIView animateWithDuration:tapUpDuration delay:0 options:[self pa_defaultAnimationOptions] animations:^{
                 
@@ -770,6 +776,8 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
                 }
                 
             } completion:^(BOOL finished) {
+                
+                if (!finished) return;
                 
                 if (self.state == PAGestureAssistantStateShowing) {
                     
@@ -799,6 +807,8 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
         
     } completion:^(BOOL finished) {
         
+        if (!finished) return;
+        
         // first tap
         [UIView animateWithDuration:tapDnDuration delay:kPAGestureAssistantDefaultViewPulseDuration*2 options:[self pa_defaultAnimationOptions] animations:^{
             
@@ -809,6 +819,8 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
             }
             
         } completion:^(BOOL finished) {
+            
+            if (!finished) return;
             
             // animate up
             [UIView animateWithDuration:tapUpDuration delay:0 options:[self pa_defaultAnimationOptions] animations:^{
@@ -821,6 +833,8 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
                 
             } completion:^(BOOL finished) {
                 
+                if (!finished) return;
+                
                 // second tap
                 [UIView animateWithDuration:tapDnDuration delay:0 options:[self pa_defaultAnimationOptions] animations:^{
                     
@@ -832,6 +846,8 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
                     
                 } completion:^(BOOL finished) {
                     
+                    if (!finished) return;
+                    
                     // animate up
                     [UIView animateWithDuration:tapUpDuration*2 delay:0 options:[self pa_defaultAnimationOptions] animations:^{
                         
@@ -842,6 +858,8 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
                         }
                         
                     } completion:^(BOOL finished) {
+                        
+                        if (!finished) return;
                         
                         if (self.state == PAGestureAssistantStateShowing) {
                             
@@ -881,6 +899,8 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
         
     } completion:^(BOOL finished) {
         
+        if (!finished) return;
+        
         // animate gesture views
         [UIView animateWithDuration:kPAGestureAssistantDefaultViewPulseDuration*1.5 delay:kPAGestureAssistantDefaultViewPulseDuration*3 options:[self pa_defaultAnimationOptions] animations:^{
             
@@ -906,6 +926,8 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
             
         } completion:^(BOOL finished) {
             
+            if (!finished) return;
+            
             // fade out gesture views
             [UIView animateWithDuration:kPAGestureAssistantDefaultViewPulseDuration/2.f delay:0 options:[self pa_defaultAnimationOptions] animations:^{
                 
@@ -915,6 +937,8 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
                 }
                 
             } completion:^(BOOL finished) {
+                
+                if (!finished) return;
                 
                 // check for repeat
                 if (self.state == PAGestureAssistantStateShowing) {
