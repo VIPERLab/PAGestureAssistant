@@ -7,7 +7,7 @@
 ![Possibilities](http://i.imgur.com/DVnwy8S.gif)
 ![iPad multi-window](http://i.imgur.com/Onj9A7i.gif)
 
-PAGestureAssistant is a drop-in UIViewController category for showing interaction tips and tutorials to users that has predefined gestures for convenience and also the ability to define your own.
+  PAGestureAssistant is a drop-in UIViewController category for showing interaction tips and tutorials to users that has predefined gestures for convenience and also the ability to define your own.
 
 ## Behaviors
 
