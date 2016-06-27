@@ -26,7 +26,7 @@ After the defined interval the animation will show only once, and any user inter
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
-Then, in your `viewDidAppear` set your assistant. ``Don't try to call if before``
+Then, in your `viewDidAppear` set your assistant. **Don't call it before!**
 
 ```objc
 - (void)viewDidAppear:(BOOL)animated
