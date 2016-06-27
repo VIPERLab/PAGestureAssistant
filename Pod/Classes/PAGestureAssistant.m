@@ -365,9 +365,9 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
 @property (strong, nonatomic) UIViewController          *viewController;
 @property (strong, nonatomic) PAGestureBackgroundView   *backgroundView;
 @property (strong, nonatomic) UILabel                   *descriptionLabel;
-@property (strong, nonatomic) NSDate                    *lastEventDate;
 @property (nonatomic, readonly) UIWindow                *window;
 
+@property (assign, nonatomic) NSTimeInterval            lastTouchInterval;
 @property (assign, nonatomic) dispatch_once_t           setupOnceToken;
 @property (assign, nonatomic) PAGestureAssistantOptions mode;
 @property (assign, nonatomic) NSTimeInterval            idleTimerDelay;
@@ -547,12 +547,12 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
 
 - (void)pa_userHasTouchedView:(UIView *)view event:(UIEvent *)event
 {
-    if (!self.lastEventDate || fabs(self.lastEventDate.timeIntervalSinceNow) > 0.15f  ) {
-        self.lastEventDate = [NSDate date];
-    }
-    else {
+    // prevents multiple firings for same touch event
+    if (event.allTouches.allObjects.firstObject.timestamp == self.lastTouchInterval) {
         return;
     }
+    
+    self.lastTouchInterval = event.allTouches.allObjects.firstObject.timestamp;
     
     if (self.isFadingOut || self.isFadingIn || [self.backgroundView.backgroundColor isEqual:[UIColor clearColor]]) {
         
