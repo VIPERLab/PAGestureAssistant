@@ -707,7 +707,8 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
             break;
             
         case PAGestureAssistantOptionUndefined:
-            PALog(@"Can't animate undefined state");
+            PALog(@"Can't animate undefined state. Shouldn't happend ever!");
+            [self pa_stop:nil];
             return;
     }
     
