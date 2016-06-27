@@ -620,9 +620,6 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
 {
     if ([self.idleTimer isEqual:timer]) {
         
-        // set background
-        [self pa_prepareBackground];
-        
         // prepare subviews
         [self pa_prepareViews];
         
@@ -958,6 +955,9 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
         _completion     = completion;
         _descriptionLabel.attributedText = attributedText ? attributedText : [[NSAttributedString alloc] initWithString:@""];
         
+        // set background
+        [self pa_prepareBackground];
+        
         // start timer
         [self pa_timerStart];
     }];
@@ -971,14 +971,7 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
 
 - (void)pa_dismiss:(nullable PAGestureCompletion)completion
 {
-//    if (self.mode == PAGestureAssistantOptionUndefined) {
-//        
-//        if (completion) {
-//            completion(YES);
-//        }
-//        return;
-//    }
-    
+
     //NSLog(@"[%@] dismiss begin...", NSStringFromClass([self class]));
     
     self.isFadingOut = YES;
@@ -1027,7 +1020,6 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
         
         self.isFadingOut = NO;
         
-        [self.backgroundView   removeFromSuperview];
         [self.descriptionLabel removeFromSuperview];
         
         if (completion) {
