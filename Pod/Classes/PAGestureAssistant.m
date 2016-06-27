@@ -716,11 +716,11 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
                      } completion:^(BOOL finished) {
                          
                          if (!finished) return;
-                             
-                         self.viewController.view.tintAdjustmentMode = UIViewTintAdjustmentModeDimmed;
-                         self.viewController.navigationController.view.tintAdjustmentMode = UIViewTintAdjustmentModeDimmed;
                          
                          self.state = PAGestureAssistantStateShowing;
+                         
+                         self.viewController.view.tintAdjustmentMode = UIViewTintAdjustmentModeDimmed;
+                         self.viewController.navigationController.view.tintAdjustmentMode = UIViewTintAdjustmentModeDimmed;
                          
                          // fade in text
                          [UIView animateWithDuration:kPAGestureAssistantDefaultViewPulseDuration*2 animations:^{
@@ -902,7 +902,7 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
         if (!finished) return;
         
         // animate gesture views
-        [UIView animateWithDuration:kPAGestureAssistantDefaultViewPulseDuration*1.5 delay:kPAGestureAssistantDefaultViewPulseDuration*3 options:[self pa_defaultAnimationOptions] animations:^{
+        [UIView animateWithDuration:kPAGestureAssistantDefaultViewPulseDuration*1.5 delay:kPAGestureAssistantDefaultViewPulseDuration*2 options:[self pa_defaultAnimationOptions] animations:^{
             
             [views enumerateObjectsUsingBlock:^(PAGestureView *view, NSUInteger idx, BOOL * _Nonnull stop) {
                 
