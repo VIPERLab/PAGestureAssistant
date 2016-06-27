@@ -1001,8 +1001,6 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
     [self.idleTimer invalidate];
     self.idleTimer = nil;
     
-    self.mode = PAGestureAssistantOptionUndefined;
-    
     // and force animations completion
     [self.window.layer removeAllAnimations];
     
@@ -1043,6 +1041,9 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
         if (completion) {
             completion(YES);
         }
+        else {
+            self.mode = PAGestureAssistantOptionUndefined;
+        }
         
     }];
 }
@@ -1061,22 +1062,16 @@ static char const * const kPAGestureAssistant        = "gestureAssistant";
 - (void)pa_dismissThenResume
 {
     
-    PAGestureAssistantOptions mode = self.mode;
-    
     [self pa_dismiss:^(BOOL finished) {
         
-        if (mode != PAGestureAssistantOptionUndefined)
-        {
-            self.mode = mode;
-            
-            // prevent resume if stopped
-            if (self.state > PAGestureAssistantStateStopped) {
-            
-                PALog(@"Rescheduling...");
-                // start timer
-                [self pa_timerStart];
-            }
+        // prevent resume if stopped
+        if (self.state > PAGestureAssistantStateStopped) {
+        
+            PALog(@"Rescheduling...");
+            // start timer
+            [self pa_timerStart];
         }
+    
     }];
 }
 
