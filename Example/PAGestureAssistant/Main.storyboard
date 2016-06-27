@@ -39,7 +39,7 @@
                                             <outletCollection property="gestureRecognizers" destination="gMZ-6I-oLi" appends="YES" id="H2H-Tb-nHu"/>
                                         </connections>
                                     </button>
-                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="3" minValue="1" maxValue="10" translatesAutoresizingMaskIntoConstraints="NO" id="dZN-PB-ogh">
+                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="2" minValue="1" maxValue="10" translatesAutoresizingMaskIntoConstraints="NO" id="dZN-PB-ogh">
                                         <rect key="frame" x="88" y="244" width="424" height="31"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="114" id="Nyo-87-hfe"/>
@@ -149,7 +149,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
-                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="2" id="gMZ-6I-oLi">
+                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="1.5" id="gMZ-6I-oLi">
                     <connections>
                         <action selector="buttonLongPress:" destination="BYZ-38-t0r" id="4jY-kR-46G"/>
                     </connections>
@@ -185,7 +185,7 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="I'm a Modal" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eGD-eQ-OGI">
                                 <rect key="frame" x="234" y="196" width="133" height="33"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
